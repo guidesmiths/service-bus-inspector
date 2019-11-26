@@ -1,0 +1,17 @@
+.navbar {
+  box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+.logoutIcon {
+  width: 22px;
+}
+
+.logout {
+  display: flex;
+  align-items: flex-end;
+}
+
+.logoutText {
+  margin-right: 5px;
+}

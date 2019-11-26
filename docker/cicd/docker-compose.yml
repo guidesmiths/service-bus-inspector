@@ -1,0 +1,7 @@
+version: "3"
+
+services:
+  service:
+    image: ilwebshops.azurecr.io/infinitaslearning/fer-mar-bus:latest
+    container_name: fer-mar-bus
+    command: ["sh", "-c", "tail -f /dev/null"]

@@ -1,0 +1,35 @@
+.tableHeaderTitle {
+  font-weight: bold;
+  background-color: white;
+  color: #17ad8d;
+  font-size: 14px;
+}
+
+.tableCondensed {
+  width: 100%;
+  background-color: #fafafa;
+  box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.firstCol {
+  min-width: 200px;
+  padding-left: 20px;
+}
+
+.firstRow {
+  height: 40px;
+}
+
+tr {
+  border: 0.5px solid lightgrey;
+}
+
+.titleActions {
+  font-weight: bold;
+  background-color: white;
+  color: #17ad8d;
+  font-size: 14px;
+  padding-left: 15px;
+  padding-left: 60px;
+}

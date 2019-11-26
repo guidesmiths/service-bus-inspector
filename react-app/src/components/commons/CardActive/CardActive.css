@@ -1,0 +1,23 @@
+.cardActiveInfoRow {
+  height: 30px;
+}
+
+.cardActiveStyle {
+  margin-top: 25px;
+}
+
+.jsonViewerContainer {
+  width: 50%;
+  max-height: 300px;
+  overflow: scroll;
+  margin-top: 15px;
+}
+
+.seeMoreButton {
+  width: 15%;
+  margin-top: 15px;
+}
+
+.cardActiveInfoRow .btn-info {
+  background-color: #ffffff !important;
+}

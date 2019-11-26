@@ -1,0 +1,51 @@
+.hiddenRowHeight {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  padding-left: 40px;
+  font-size: 14px;
+}
+
+.hiddenRowHeight:hover {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  padding-left: 40px;
+  font-size: 14px;
+  cursor: default;
+}
+
+.iconContainer {
+  width: fit-content;
+  fill: #3c4043;
+  display: flex;
+  align-items: center;
+}
+.iconContainer a:nth-child(2) {
+  margin-left: 20px;
+}
+
+.activeMessageCount {
+  padding-left: 55px;
+}
+
+.deadLetterCount {
+  padding-left: 45px;
+}
+
+.activeMessages {
+  font-size: 14px;
+}
+
+.linkSpan {
+  color: lightseagreen;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.linkSpan:hover {
+  color: rgb(31, 128, 123);
+  text-decoration: none;
+  font-weight: 500;
+  /* font-size: 17px; */
+}

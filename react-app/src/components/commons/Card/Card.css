@@ -1,0 +1,53 @@
+.cardInfoRow {
+  height: 30px;
+  width: fit-content;
+  margin-left: 15px;
+}
+
+.cardStyle {
+  margin-top: 25px;
+}
+
+.card-list .card {
+  border-radius: 10px;
+  border: 0.5px solid #17ad8d;
+}
+
+.card-body .btn-info {
+  background-color: #ffffff;
+  border-color: #17ad8d;
+  border-radius: 50px;
+  color: #17ad8d;
+}
+
+.card-body .btn-info:hover {
+  background-color: #17ad8d;
+  border-color: #17ad8d;
+
+  margin-top: 25px;
+}
+
+.jsonViewerContainer {
+  width: 50%;
+  max-height: 300px;
+  overflow: scroll;
+  margin-top: 15px;
+  margin-left: 15px;
+}
+
+.seeMoreButton {
+  width: 15%;
+  float: right;
+  line-height: 1.15 !important;
+}
+
+.deliveryAndAttemptCount {
+  width: fit-content;
+  display: flex;
+}
+
+.card-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}

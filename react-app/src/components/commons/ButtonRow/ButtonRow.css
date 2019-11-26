@@ -1,0 +1,46 @@
+.buttonRowContainer {
+  margin-bottom: 50px;
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.buttonContainer {
+  width: 300px;
+  display: flex;
+}
+
+.btn {
+  width: 100%;
+}
+
+.connectionRow .input-group .form-control {
+  margin-left: 2px;
+  height: auto;
+  width: 90px;
+  border-color: #17ad8d;
+  border-radius: 50px;
+  color: #3c4043;
+  text-align: center;
+}
+
+.buttonContainer .btn-info {
+  background-color: #ffffff;
+  border-color: #17ad8d;
+  border-radius: 50px;
+  color: #17ad8d;
+}
+
+.buttonContainer .btn-info:hover {
+  background-color: #17ad8d;
+  color: #ffffff;
+}
+
+.buttonContainer .btn-info:disabled {
+  background-color: #bee7de;
+  color: #3c4043;
+}
+
+.btn-info .spinner-grow {
+  margin-right: 10px;
+}

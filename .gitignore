@@ -1,0 +1,8 @@
+node_modules
+manifest.json
+*.log
+react-app/node_modules
+react-app/coverage
+*.env
+.vscode
+*.DS_Store

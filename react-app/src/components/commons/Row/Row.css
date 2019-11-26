@@ -1,0 +1,27 @@
+.customRow {
+  border-top: 0.5px solid #17ad8d;
+  height: 35px;
+  background-color: #ffffff;
+  color: #3c4043;
+  border-radius: 10px;
+  font-weight: 400px;
+}
+
+.firstRow {
+  padding-left: 20px;
+}
+
+.iconWithMessage {
+  width: 20px;
+  fill: #17ad8d;
+}
+
+.iconWithDeadMessage {
+  width: 20px;
+  fill: #ff0000;
+}
+
+.iconWithOutMessage {
+  width: 20px;
+  fill: #adb0b3;
+}
