@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: ilwebshops.azurecr.io/service-bus-inspector
+  repository: ilwebshops.azurecr.io/infinitaslearning/service-bus-inspector
   tag: latest
   pullPolicy: Always
 
