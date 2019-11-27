@@ -64,7 +64,7 @@ const BusConnection = ({
     const checkToken = async () => {
         const response = await axios({
             method: 'get',
-            url: 'http://localhost:4001/tokenhealth',
+            url: 'http://localhost:4000/tokenhealth',
             headers: {
               Authorization: localStorage.getItem('token'),
              },

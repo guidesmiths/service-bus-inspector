@@ -5,12 +5,12 @@
 replicaCount: 1
 
 image:
-  repository: discoregistryinfinitas.azurecr.io/fer-mar-bus
+  repository: ilwebshops.azurecr.io/service-bus-inspector
   tag: latest
   pullPolicy: Always
 
 nameOverride: ""
-fullnameOverride: "fer-mar-bus"
+fullnameOverride: "service-bus-inspector"
 
 environment:
   name: test
