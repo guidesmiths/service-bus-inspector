@@ -4,4 +4,4 @@ metadata:
   name: {{ .Chart.Name }}
 data:
   NODE_ENV: production
-  SERVICE_ENV: {{ .Values.environment.name }}
+  SERVICE_ENV: prod
