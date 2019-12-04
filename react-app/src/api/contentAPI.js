@@ -3,7 +3,7 @@ import { handlingResponse, logError } from './utils';
 
 export const getDlq = (params) => axios({
   method: 'post',
-  url: 'http://localhost:4000/peekdlq',
+  url: 'http://10.121.16.206/peekdlq',
   headers: {
     Authorization: localStorage.getItem('token'),
   },
@@ -18,7 +18,7 @@ export const getDlq = (params) => axios({
 
 export const deleteDlq = (params) => axios({
   method: 'post',
-  url: 'http://localhost:4000/processdlq',
+  url: 'http://10.121.16.206/processdlq',
   headers: {
     Authorization: localStorage.getItem('token'),
   },
@@ -32,7 +32,7 @@ export const deleteDlq = (params) => axios({
 
 export const deleteActive = (params) => axios({
   method: 'post',
-  url: 'http://localhost:4000/deleteActive',
+  url: 'http://10.121.16.206/deleteActive',
   headers: {
     Authorization: localStorage.getItem('token'),
   },
@@ -46,7 +46,7 @@ export const deleteActive = (params) => axios({
 
 export const getActive = (params) => axios({
   method: 'post',
-  url: 'http://localhost:4000/peekactive',
+  url: 'http://10.121.16.206/peekactive',
   headers: {
     Authorization: localStorage.getItem('token'),
   },
@@ -62,7 +62,7 @@ export const getActive = (params) => axios({
 
 export const getToken = (credentials) => axios({
   method: 'post',
-  url: 'http://localhost:4000/auth',
+  url: 'http://10.121.16.206/auth',
   headers: {},
   data: {
     clientId: credentials.payload.clientId,
@@ -76,7 +76,7 @@ export const getToken = (credentials) => axios({
 
 export const getNamespaces = (token) => axios({
   method: 'get',
-  url: 'http://localhost:4000/namespaces',
+  url: 'http://10.121.16.206/namespaces',
   headers: { 
     Authorization: localStorage.getItem('token'),
    },
@@ -85,7 +85,7 @@ export const getNamespaces = (token) => axios({
 
 export const getTopics = (body) => axios({
   method: 'post',
-  url: 'http://localhost:4000/namespace',
+  url: 'http://10.121.16.206/namespace',
   headers: {
     Authorization: localStorage.getItem('token'),
    },
@@ -96,7 +96,7 @@ export const getTopics = (body) => axios({
 
 export const tokenHealth = (token) => axios({
   method: 'get',
-  url: 'http://localhost:4000/tokenhealth',
+  url: 'http://10.121.16.206/tokenhealth',
   headers: {
     Authorization: token,
    },

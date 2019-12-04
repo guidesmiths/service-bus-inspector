@@ -1,18 +1,17 @@
-FROM node:10.16-alpine
+FROM node:10.16
 
 # Create app directory
 WORKDIR /usr/src/app
 
 # Install app dependencies
 COPY .npmrc package*.json ./
+COPY react-app/package*.json ./react-app/
 
-# In order to run node alpine avoiding Python error
-RUN apk --no-cache add --virtual builds-deps build-base python
-
-RUN npm install
+RUN npm install && cd react-app && npm install && cd ..
+COPY . .
+RUN cd react-app && npm run build && cd ..
 
 # Bundle app source
-COPY . .
 
 EXPOSE 3000
 

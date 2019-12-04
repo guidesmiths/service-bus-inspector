@@ -21,4 +21,4 @@ module.exports = new System({ name: 'routes' })
 	.add('error.routes', errorRoutes())
 	.dependsOn('app', 'logger')
 	.add('routes')
-	.dependsOn('routes.admin', 'routes.content', 'api.routes', 'error.routes');
+	.dependsOn('routes.admin', 'api.routes', 'routes.content', 'error.routes');

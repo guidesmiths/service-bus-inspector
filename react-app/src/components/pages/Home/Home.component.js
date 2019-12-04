@@ -62,7 +62,7 @@ const Home = ({
     const checkToken = async () => {
         const response = await axios({
             method: 'get',
-            url: 'http://localhost:4000/tokenhealth',
+            url: 'http://10.121.16.206/tokenhealth',
             headers: {
               Authorization: localStorage.getItem('token'),
              },

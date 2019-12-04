@@ -3,6 +3,7 @@ manifest.json
 *.log
 react-app/node_modules
 react-app/coverage
+react-app/build
 *.env
 .vscode
 *.DS_Store

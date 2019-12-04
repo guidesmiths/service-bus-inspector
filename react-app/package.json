@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "bootstrap": "^4.3.1",
+    "express": "^4.17.1",
     "history": "^4.10.1",
     "npm": "^6.11.3",
     "react": "^16.10.1",
@@ -43,5 +44,6 @@
   "devDependencies": {
     "react-router-redux": "^4.0.8",
     "redux-devtools": "^3.5.0"
-  }
+  },
+  "proxy": "http://localhost:4000"
 }
