@@ -1,47 +1,48 @@
 .loginContainer {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+	width: 100%;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .cardCustom {
-  width: 400px;
-  height: auto;
-  box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.1);
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  padding: 50px;
-  border-radius: 20px;
-  justify-content: space-between;
+	width: 400px;
+	height: auto;
+	box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.1);
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	padding: 50px;
+	border-radius: 20px;
+	justify-content: space-between;
 }
 
 .inputWrap {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
 }
 
 .loginContainer .inputWrap .form-control {
-  width: 300px;
-  margin-top: 10px;
+	width: 300px;
+	margin-top: 10px;
 }
 
 .cardCustom h5 {
-  color: #3c4043;
-  font-weight: 400;
+	color: #3c4043;
+	font-weight: 400;
 }
 
 .cardCustom .btn-primary {
-  background-color: #ffffff;
-  border-color: #17ad8d;
-  border-radius: 50px;
-  color: #17ad8d;
+	background-color: #ffffff;
+	border-color: #17ad8d;
+	border-radius: 50px;
+	color: #17ad8d;
 }
 
 .cardCustom .btn-primary:hover {
-  background-color: #17ad8d;
-  border-color: #17ad8d;
+	background-color: #17ad8d;
+	border-color: #17ad8d;
+	color: white;
 }
