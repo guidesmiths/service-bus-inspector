@@ -42,7 +42,7 @@
 }
 
 .cardCustom .btn-primary:hover {
+	color: white;
 	background-color: #17ad8d;
 	border-color: #17ad8d;
-	color: white;
 }
