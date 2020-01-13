@@ -14,11 +14,11 @@ module.exports = new System({ name: 'routes' })
 		'manifest',
 		'healthcheck',
 	)
-	.add('routes.content', contentRoutes())
-	.dependsOn('app')
 	.add('api.routes', apiRoutes())
 	.dependsOn('config', 'app', 'controller')
 	.add('error.routes', errorRoutes())
 	.dependsOn('app', 'logger')
+	.add('routes.content', contentRoutes())
+	.dependsOn('app')
 	.add('routes')
 	.dependsOn('routes.admin', 'api.routes', 'routes.content', 'error.routes');
