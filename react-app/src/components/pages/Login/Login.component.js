@@ -17,7 +17,6 @@ const Login = ({ resetToaster, history, toastMessage, signIn, hasValidToken, che
     setSubmitted(true);
     if (clientId !== '' && clientSecret !== '' && appTenantId !== '' && subscriptionId !== '') {
       signIn(clientId, clientSecret, appTenantId, subscriptionId);
-      checkToken();
     }
   };
 

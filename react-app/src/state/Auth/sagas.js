@@ -8,8 +8,9 @@ import { content as contentAPI } from '../../api';
 function* signInSaga(credentials) {
   try {
     const { token } = yield contentAPI.getToken(credentials);
-    yield put(azureActions.setToasterMessage({ message: 'Logged in successfully', action: 'Log in' }));
     localStorage.setItem('token', token);
+    yield put(authActions.checkToken());
+    yield put(azureActions.setToasterMessage({ message: 'Logged in successfully', action: 'Log in' }));
   } catch (error) {
     yield put(azureActions.setToasterMessage({ message: error.message, action: 'Error signing in' }));
   }
