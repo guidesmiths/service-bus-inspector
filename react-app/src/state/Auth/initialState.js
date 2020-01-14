@@ -1,3 +1,4 @@
 export default {
-  hasValiedToken: false,
+  hasValidToken: false,
+  isCheckingToken: false
 };

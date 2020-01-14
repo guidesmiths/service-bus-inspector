@@ -2,6 +2,7 @@ import { put } from 'redux-saga/effects';
 
 import * as actionTypes from './actionTypes';
 import * as azureActions from '../Azure/actionCreators';
+import * as authActions from './actionCreators';
 import { content as contentAPI } from '../../api';
 
 function* signInSaga(credentials) {
@@ -14,6 +15,16 @@ function* signInSaga(credentials) {
   }
 }
 
+function* checkTokenSaga() {
+  try {
+    const isValid = yield contentAPI.checkToken();
+    yield put(authActions.setTokenValidity(isValid));
+  } catch (error) {
+    yield put(authActions.setTokenValidity(false));
+  }
+}
+
 export default {
   [actionTypes.SIGN_IN]: signInSaga,
+  [actionTypes.CHECK_TOKEN]: checkTokenSaga
 };
