@@ -10,7 +10,7 @@ export const getDlq = params =>
     },
     data: {
       topic: params.payload.content.topic,
-      subscription: params.payload.content.sub,
+      subscription: params.payload.content.subscription,
       numMessages: params.payload.content.numDlq
     }
   })
@@ -55,9 +55,9 @@ export const getActive = params =>
       Authorization: localStorage.getItem('token')
     },
     data: {
-      nameSpace: params.payload.content.nameSpace,
+      nameSpace: params.payload.content.namespace,
       topic: params.payload.content.topic,
-      subscription: params.payload.content.sub,
+      subscription: params.payload.content.subscription,
       numMessages: params.payload.content.numActive
     }
   })

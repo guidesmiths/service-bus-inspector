@@ -5,4 +5,4 @@ export const topics = state => state.content.topics;
 export const getNamespaces = state => state.content.namespaces;
 export const getConnectionString = state => state.content.connectionString;
 export const getSelectedNamespace = state => state.content.selectedNamespace;
-
+export const getBusConnectionParams = state => state.content.busConnectionParams;

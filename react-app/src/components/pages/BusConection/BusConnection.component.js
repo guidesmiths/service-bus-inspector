@@ -7,51 +7,51 @@ import Toaster from '../../commons/Toaster/Toaster.container';
 import NavBar from '../../commons/NavBar/NavBar';
 import './BusConnection.css';
 
-const BusConnection = ({ content, activeList, dlqList, getDlq, getActive, deleteDlq, isLoading, setLoading, toastMessage, deleteActive, match, location, hasValidToken, checkToken, isCheckingToken, ...props }) => {
+const BusConnection = ({ content, activeList, dlqList, getDlq, getActive, deleteDlq, isLoading, setLoading, toastMessage, deleteActive, hasValidToken, checkToken, isCheckingToken, busConnectionParams, ...props }) => {
+  const { mode, namespace, topic, subscription, activeCount, dlqCount } = busConnectionParams;
+
   useEffect(() => {
     checkToken();
   }, [checkToken]);
 
   useEffect(() => {
     !hasValidToken && props.history.push('/login');
-  }, [hasValidToken, props.history]);
+    !subscription && props.history.push('/home');
+  }, [hasValidToken, props.history, subscription]);
 
   useEffect(() => {
     if (!isCheckingToken && hasValidToken) {
-      if (match.params.activeordlq === 'peekactive') {
+      if (mode === 'peekactive') {
         onClickPeekActive();
       }
-      if (match.params.activeordlq === 'peekdlq') {
+      if (mode === 'peekdlq') {
         onClickPeekDlq();
       }
     }
-  }, [isCheckingToken, hasValidToken]);
+  }, [isCheckingToken, hasValidToken, mode]);
 
-  const [nowIn, setNowIn] = useState(match.params.activeordlq);
-  const [nameSpace] = useState(match.params.namespace);
-  const [topic] = useState(match.params.topic);
-  const [sub] = useState(match.params.subscription);
-  const [numDlq, setNumDlq] = useState(match.params.messagecount);
-  const [numActive, setNumActive] = useState(match.params.messagecount);
+  const [nowIn, setNowIn] = useState(mode);
+  const [numDlq, setNumDlq] = useState(dlqCount);
+  const [numActive, setNumActive] = useState(activeCount);
 
   const onClickModal = value => setNowIn(value);
   const onClickNumActiveMessage = value => setNumActive(value);
   const onClickNumDlqMessage = value => setNumDlq(value);
 
   const onClickPeekDlq = () => {
-    getDlq({ nameSpace, topic, sub, numDlq });
+    getDlq({ namespace, topic, subscription, numDlq });
     setLoading(true);
   };
 
   const onClickPeekActive = () => {
-    getActive({ nameSpace, topic, sub, numActive });
+    getActive({ namespace, topic, subscription, numActive });
     setLoading(true);
   };
 
   const confirmedDeleteDlq = () => {
     setLoading(true);
-    if (nowIn === 'deletedlq') deleteDlq({ topic, sub, nameSpace });
-    if (nowIn === 'deleteActive') deleteActive({ topic, sub, nameSpace });
+    if (nowIn === 'deletedlq') deleteDlq({ topic, subscription, namespace });
+    if (nowIn === 'deleteActive') deleteActive({ topic, subscription, namespace });
   };
 
   return (
@@ -62,7 +62,7 @@ const BusConnection = ({ content, activeList, dlqList, getDlq, getActive, delete
         <div className="wrap">
           <div className="nameContainer">
             <div className="title">Namespace</div>
-            <div className="subtitle">{nameSpace}</div>
+            <div className="subtitle">{namespace}</div>
           </div>
           <div className="nameContainer">
             <div className="title">Topic</div>
@@ -70,7 +70,7 @@ const BusConnection = ({ content, activeList, dlqList, getDlq, getActive, delete
           </div>
           <div className="nameContainer">
             <div className="title">Subscription</div>
-            <div className="subtitle">{sub}</div>
+            <div className="subtitle">{subscription}</div>
           </div>
         </div>
         <ButtonRow
@@ -80,7 +80,7 @@ const BusConnection = ({ content, activeList, dlqList, getDlq, getActive, delete
           peekActiveMethod={onClickPeekActive}
           numDlqMessage={onClickNumDlqMessage}
           numActiveMessage={onClickNumActiveMessage}
-          isActive={match.params.activeordlq === 'peekactive' ? true : false}
+          isActive={busConnectionParams.mode === 'peekactive' ? true : false}
           dlqMessages={dlqList.length}
           activeMessages={activeList.length}
         />
@@ -102,7 +102,7 @@ const BusConnection = ({ content, activeList, dlqList, getDlq, getActive, delete
             activeList.length > 0 &&
             activeList.map(card => <Card nowIn={nowIn} cardJson={card} key={card.messageId} header={card.messageId} errorDescription={card.body.value} deadLetterReason={card.deliveryCount} attemptCount={card.userProperties.attemptCount} />)
           ) : nowIn === 'deletedlq' || nowIn === 'deleteActive' ? (
-            <DeleteModal onConfirmDelete={confirmedDeleteDlq} modalAction={nowIn} onCloseModal={() => setNowIn('')} dlqMessages={match.params.messagecount} activeMessages={match.params.messagecount} />
+            <DeleteModal onConfirmDelete={confirmedDeleteDlq} modalAction={nowIn} onCloseModal={() => setNowIn('')} dlqMessages={numDlq} activeMessages={numActive} />
           ) : (
             ''
           )}

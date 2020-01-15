@@ -16,7 +16,8 @@ const mapStateToProps = state => ({
   activeList: contentSelector.getActive(state),
   connectionString: contentSelector.getConnectionString(state),
   hasValidToken: hasValidToken(state),
-  isCheckingToken: isCheckingToken(state)
+  isCheckingToken: isCheckingToken(state),
+  busConnectionParams: contentSelector.getBusConnectionParams(state)
 });
 
 const mapDispatchToProps = dispatch => ({
