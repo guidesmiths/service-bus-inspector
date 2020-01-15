@@ -9,7 +9,7 @@ function* getDlqSaga(params) {
   try {
     const content = yield contentAPI.getDlq(params);
     if (content.length === 0) {
-      yield put(azureActions.setToasterMessage({ id: '', message: 'No messages in DLQ', action: 'Error Reading DLQ' }))
+      yield put(azureActions.setToasterMessage({ id: '', message: 'There are no messages in DLQ', action: 'Empty DLQ' }))
     } else {
       yield put(azureActions.setDlq(content));
     }
@@ -24,6 +24,8 @@ function* getDlqSaga(params) {
 function* deleteDlqSaga(params) {
   try {
     yield call(contentAPI.deleteDlq, params)
+    yield put(azureActions.setToasterMessage({ message: 'Deleted active properly', action: 'Deleting DLQ' }))
+    yield window.location.reload()
   } catch (error) {
     yield put(azureActions.setToasterMessage({ message: error.message, action: 'Error Deleting DLQ' }))
   }
@@ -36,7 +38,7 @@ function* deleteActiveSaga(params) {
   try {
     const result = yield call(contentAPI.deleteActive, params)
     yield put(azureActions.setToasterMessage({ message: 'Deleted active properly', action: result }))
-
+    yield window.location.reload()
   } catch (error) {
     yield put(azureActions.setToasterMessage({ message: error.message, action: 'Error Deleting Active Messages' }))
   }
@@ -49,7 +51,7 @@ function* getActiveSaga(params) {
   try {
     const content = yield contentAPI.getActive(params);
     if (content.length === 0) {
-      yield put(azureActions.setToasterMessage({ message: 'No Active Messages', action: 'Error Reading Active Messages' }))
+      yield put(azureActions.setToasterMessage({ message: 'There are no Active Messages', action: 'Empty active queue' }))
     } else {
       yield put(azureActions.setActive(content));
     }

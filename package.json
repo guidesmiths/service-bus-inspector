@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "local": "cross-env SERVICE_ENV=local node index.js",
+    "build-app": "cd react-app && npm run build",
     "start": "node index.js",
     "dev": "nodemon --inspect index.js ",
     "test-ci": "cross-env SERVICE_ENV=test mocha --reporter mocha-junit-reporter",
