@@ -101,11 +101,13 @@ export const getTopics = body =>
     .then(handlingResponse([200], 'Error trying to get content'))
     .catch(logError);
 
-export const tokenHealth = token =>
-  axios({
+export const checkToken = async () => {
+  const response = await axios({
     method: 'get',
     url: '/tokenhealth',
     headers: {
-      Authorization: token
+      Authorization: localStorage.getItem('token')
     }
   });
+  return response.data;
+};
