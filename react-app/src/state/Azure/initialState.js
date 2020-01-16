@@ -1,7 +1,5 @@
 export default {
-  dlqList: [],
   toastNotifications: [],
-  activeList: [],
   topics: [],
   namespaces: [],
   selectedNamespace: '',

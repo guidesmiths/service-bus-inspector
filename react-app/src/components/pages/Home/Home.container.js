@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import Home from './Home.component';
-import { setDlq, setActive, resetToasterMessage, getNamespaces, getTopics, selectNamespace } from '../../../state/Azure/actionCreators';
+import { resetToasterMessage, getNamespaces, getTopics, selectNamespace } from '../../../state/Azure/actionCreators';
 import * as contentSelector from '../../../state/Azure/selectors';
 import { getLoadingState } from '../../../state/UI/selectors';
 import { hasValidToken, isCheckingToken } from '../../../state/Auth/selectors';
@@ -18,8 +18,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setDlq: () => dispatch(setDlq([])),
-  setActive: () => dispatch(setActive([])),
   resetToaster: () => dispatch(resetToasterMessage()),
   getNamespaces: () => dispatch(getNamespaces()),
   getTopics: namespace => dispatch(getTopics(namespace)),
