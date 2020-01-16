@@ -10,6 +10,7 @@ You can access the application here: http://10.121.16.206/ (You must be connecte
 If you can't connect to the VPN, you might want to run it locally: 
 - Clone the repo
 - At root level, run `npm i`
+- Inside the react-app folder, run `npm i`
 - At root level, run `npm run start`
 - Inside the `react-app` folder, run `npm run start`
 - You can now access the app in http://localhost:3000
