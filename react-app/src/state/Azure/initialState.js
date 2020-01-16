@@ -4,7 +4,6 @@ export default {
   activeList: [],
   topics: [],
   namespaces: [],
-  connectionString: [],
   selectedNamespace: '',
   busConnectionParams: {
     mode: '',
