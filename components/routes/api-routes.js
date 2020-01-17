@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken');
 const axios = require('axios');
 const { createBadRequest } = require('../../utils/errors-creator');
 
-
 module.exports = () => {
 	const start = async ({ app, controller }) => {
 		app.use(bodyParser.urlencoded({ extended: true }));
@@ -46,8 +45,9 @@ module.exports = () => {
 
 		app.post('/auth', (req, res, next) => {
 			const { clientId, clientSecret, appTenantId, subscriptionId } = req.body;
+			req.session.credentials = { clientId, clientSecret, appTenantId, subscriptionId };
 			controller
-				.authorize(clientId, clientSecret, appTenantId, subscriptionId)
+				.authorize(clientId, clientSecret, appTenantId)
 				.then(token => res.json({ token }))
 				.catch(err => next(err));
 		});
@@ -55,7 +55,7 @@ module.exports = () => {
 		app.get('/namespaces', isTokenValid, (req, res, next) => {
 			const { authorization } = req.headers;
 			controller
-				.getNamespaces(authorization)
+				.getNamespaces(authorization, req.session.credentials.subscriptionId)
 				.then(response => res.json(response))
 				.catch(err => next(err));
 		});
@@ -64,15 +64,18 @@ module.exports = () => {
 			const { authorization } = req.headers;
 			const { namespace, resourceGroup } = req.body;
 			controller
-				.getAllTopicsWithSubs(namespace, resourceGroup, authorization)
-				.then(response => res.json(response))
+				.getAllTopicsWithSubs(namespace, resourceGroup, authorization, req.session.credentials.subscriptionId)
+				.then(response => {
+					req.session.currentNamespaceConnectionString = response.currentNamespaceConnectionString;
+					return res.json(response.topicsAndSubscriptions);
+				})
 				.catch(err => next(err));
 		});
 
 		app.post('/peekdlq', isTokenValid, (req, res, next) => {
 			const { topic, subscription, numMessages } = req.body;
 			controller
-				.peekDlq(topic, subscription, numMessages)
+				.peekDlq(topic, subscription, numMessages, req.session.currentNamespaceConnectionString)
 				.then(result => res.json(result))
 				.catch(next);
 		});
@@ -81,7 +84,7 @@ module.exports = () => {
 			const { topic, subscription } = req.body;
 
 			controller
-				.purgeDlq(topic, subscription)
+				.purgeDlq(topic, subscription, req.session.currentNamespaceConnectionString)
 				.then(result => res.json(result))
 				.catch(next);
 		});
@@ -90,7 +93,7 @@ module.exports = () => {
 			const { topic, subscription, numMessages } = req.body;
 
 			controller
-				.peekActive(topic, subscription, numMessages)
+				.peekActive(topic, subscription, numMessages, req.session.currentNamespaceConnectionString)
 				.then(result => res.json(result))
 				.catch(next);
 		});
@@ -99,7 +102,7 @@ module.exports = () => {
 			const { topic, subscription } = req.body;
 
 			controller
-				.purgeActive(topic, subscription)
+				.purgeActive(topic, subscription, req.session.currentNamespaceConnectionString)
 				.then(result => res.json(result))
 				.catch(next);
 		});
