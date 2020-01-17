@@ -38,6 +38,8 @@
 }
 
 .linkSpan {
+  background: transparent;
+  border: 0;
   color: lightseagreen;
   text-decoration: none;
   font-weight: 500;
@@ -47,5 +49,4 @@
   color: rgb(31, 128, 123);
   text-decoration: none;
   font-weight: 500;
-  /* font-size: 17px; */
 }

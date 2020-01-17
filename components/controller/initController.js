@@ -1,4 +1,3 @@
-
 const initBus = require('systemic-azure-bus');
 const { createBadRequest } = require('../../utils/errors-creator');
 
@@ -78,11 +77,13 @@ module.exports = () => {
 				const busConfig = getBusConfig(topic, subscription, currentNamespaceConnectionString);
 				const { start: startBus, stop: stopBus } = initBus();
 				const bus = await startBus({ config: busConfig });
-				const messageHandler = async message => { message.complete(); };
+				const messageHandler = async message => {
+					message.complete();
+				};
 				await bus.processDlq(config.subscriptionToAnalyzeId, messageHandler);
 				await stopBus();
-				logger.info('Peek DLQ processed properly');
-				return 'Peek DLQ processed properly';
+				logger.info('Delete DLQ processed properly');
+				return 'Delete DLQ processed properly';
 			} catch (err) {
 				logger.error(err);
 				throw createBadRequest(err.message);
@@ -121,7 +122,7 @@ module.exports = () => {
 				};
 				subscribe()(config.subscriptionToAnalyzeId, onMessageHanlder);
 				logger.info('Deleted Active Messages properly');
-				return 'Deleted all messages';
+				return 'Deleted all Active Messages properly';
 			} catch (err) {
 				logger.error(err);
 				throw createBadRequest(err.message);
