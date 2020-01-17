@@ -38,7 +38,7 @@ const BusConnection = ({ isLoading, setLoading, toastMessage, setToasterMessage,
 			setLoading(true);
 			const content = await (mode === 'peekactive' ? getActive({ numMessages: numActive, ...sharedParams }) : getDlq({ numMessages: numDlq, ...sharedParams }));
 			if (content.length === 0) {
-				setToasterMessage({ message: 'No Messages Found', action: 'Error Reading Messages' });
+				setToasterMessage({ message: 'There are no messages in this queue', action: 'No Messages' });
 				setListOfMessages([]);
 			} else {
 				setListOfMessages(content);
