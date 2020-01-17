@@ -36,10 +36,10 @@ const RowCollapsible = ({ subscription, topicName, topicNameUnparsed, namespace,
         <div className="accordian-body collapse show" id={topicName}>
           <div className="iconContainer">
             <button className="linkSpan" onClick={() => onClickSubscription('peekactive', subscription, namespace, topicNameUnparsed)}>
-              Read Active
+              Read <b>Active</b>
             </button>
             <button className="linkSpan" onClick={() => onClickSubscription('peekdlq', subscription, namespace, topicNameUnparsed)}>
-              Read DLQ
+              Read <b>DLQ</b>
             </button>
           </div>
         </div>
