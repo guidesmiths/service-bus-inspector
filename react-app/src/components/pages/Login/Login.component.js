@@ -3,6 +3,7 @@ import { Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Toaster from '../../commons/Toaster/Toaster.container';
 import { withRouter } from 'react-router-dom';
+import { ReactComponent as Logo } from '../../../assets/gs_icon.svg';
 
 import './Login.css';
 
@@ -40,7 +41,7 @@ const Login = ({ resetToaster, history, toastMessage, signIn, hasValidToken, che
     <div className="loginContainer">
       {toastMessage !== [] && toastMessage.map((element, index) => <Toaster key={index} message={element.message} action={element.action} />)}
       <form className="cardCustom" onSubmit={onClickLogin}>
-        <h5>Login</h5>
+        <h5><Logo /><b className="titleText">Service Bus Inspector</b></h5>
         <div className="input-group mb-3 inputWrap">
           <input
             type="text"
