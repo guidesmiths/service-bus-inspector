@@ -44,7 +44,7 @@ const Login = ({ resetToaster, history, toastMessage, signIn, hasValidToken, che
         <h5><Logo /><b className="titleText">Service Bus Inspector</b></h5>
         <div className="input-group mb-3 inputWrap">
           <input
-            type="text"
+            type="password"
             onKeyPress={event => keyPressed(event)}
             className={'form-control' + (clientId === '' && submitted === true ? ' is-invalid' : '')}
             required
@@ -55,7 +55,7 @@ const Login = ({ resetToaster, history, toastMessage, signIn, hasValidToken, che
           />
           <div className="invalid-feedback">Client ID is required.</div>
           <input
-            type="text"
+            type="password"
             onKeyPress={event => keyPressed(event)}
             className={'form-control' + (clientSecret === '' && submitted === true ? ' is-invalid' : '')}
             required
@@ -66,7 +66,7 @@ const Login = ({ resetToaster, history, toastMessage, signIn, hasValidToken, che
           />
           <div className="invalid-feedback">Client Secret is required.</div>
           <input
-            type="text"
+            type="password"
             onKeyPress={event => keyPressed(event)}
             className={'form-control' + (appTenantId === '' && submitted === true ? ' is-invalid' : '')}
             required
@@ -77,7 +77,7 @@ const Login = ({ resetToaster, history, toastMessage, signIn, hasValidToken, che
           />
           <div className="invalid-feedback">Tenant ID is required.</div>
           <input
-            type="text"
+            type="password"
             onKeyPress={event => keyPressed(event)}
             className={'form-control' + (subscriptionId === '' && submitted === true ? ' is-invalid' : '')}
             required
