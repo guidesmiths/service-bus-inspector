@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { handlingResponse, logError } from './utils';
 
-export const getDlq = params =>
+export const getDlq = ({ topic, subscription, numMessages }) =>
   axios({
     method: 'post',
     url: '/peekdlq',
@@ -9,15 +9,15 @@ export const getDlq = params =>
       Authorization: localStorage.getItem('token')
     },
     data: {
-      topic: params.payload.content.topic,
-      subscription: params.payload.content.sub,
-      numMessages: params.payload.content.numDlq
+      topic,
+      subscription,
+      numMessages
     }
   })
     .then(handlingResponse([200], 'Error trying to get content'))
     .catch(logError);
 
-export const deleteDlq = params =>
+export const deleteDlq = (topic, subscription) =>
   axios({
     method: 'post',
     url: '/processdlq',
@@ -25,14 +25,14 @@ export const deleteDlq = params =>
       Authorization: localStorage.getItem('token')
     },
     data: {
-      topic: params.payload.content.topic,
-      subscription: params.payload.content.sub
+      topic,
+      subscription
     }
   })
     .then(handlingResponse([200], 'Error trying to get content'))
     .catch(logError);
 
-export const deleteActive = params =>
+export const deleteActive = (topic, subscription) =>
   axios({
     method: 'post',
     url: '/deleteActive',
@@ -40,14 +40,14 @@ export const deleteActive = params =>
       Authorization: localStorage.getItem('token')
     },
     data: {
-      topic: params.payload.content.topic,
-      subscription: params.payload.content.sub
+      topic,
+      subscription
     }
   })
     .then(handlingResponse([200], 'Error trying to get content'))
     .catch(logError);
 
-export const getActive = params =>
+export const getActive = ({ namespace, topic, subscription, numMessages }) =>
   axios({
     method: 'post',
     url: '/peekactive',
@@ -55,10 +55,10 @@ export const getActive = params =>
       Authorization: localStorage.getItem('token')
     },
     data: {
-      nameSpace: params.payload.content.nameSpace,
-      topic: params.payload.content.topic,
-      subscription: params.payload.content.sub,
-      numMessages: params.payload.content.numActive
+      nameSpace: namespace,
+      topic,
+      subscription,
+      numMessages
     }
   })
     .then(handlingResponse([200], 'Error trying to get content'))

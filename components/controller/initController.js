@@ -1,12 +1,8 @@
-
 const initBus = require('systemic-azure-bus');
 const { createBadRequest } = require('../../utils/errors-creator');
 
 module.exports = () => {
 	const start = async ({ logger, azure, config }) => {
-		let currentTokenCredentials;
-		let currentNamespaceConnectionString;
-
 		const getBusConfig = (topic, subscription, connectionString) => {
 			const subscriptions = {};
 			subscriptions[config.subscriptionToAnalyzeId] = {
@@ -22,11 +18,10 @@ module.exports = () => {
 			return res;
 		};
 
-		const authorize = async (clientId, clientSecret, appTenantId, subscriptionId) => {
+		const authorize = async (clientId, clientSecret, appTenantId) => {
 			try {
 				const authToken = await azure.authorize(clientId, clientSecret, appTenantId);
 				logger.info('Authorizing user');
-				currentTokenCredentials = { clientId, clientSecret, appTenantId, subscriptionId };
 				return authToken;
 			} catch (err) {
 				logger.error(err);
@@ -34,9 +29,9 @@ module.exports = () => {
 			}
 		};
 
-		const getNamespaces = async azureToken => {
+		const getNamespaces = async (azureToken, subscriptionId) => {
 			try {
-				const namespaces = await azure.getNamespaces(azureToken, currentTokenCredentials.subscriptionId);
+				const namespaces = await azure.getNamespaces(azureToken, subscriptionId);
 				logger.info('Retrieving namespaces');
 				return namespaces;
 			} catch (err) {
@@ -45,19 +40,19 @@ module.exports = () => {
 			}
 		};
 
-		const getAllTopicsWithSubs = async (namespaceId, resourceGroup, azureToken) => {
+		const getAllTopicsWithSubs = async (namespaceId, resourceGroup, azureToken, subscriptionId) => {
 			try {
-				const topicsAndSubscriptions = await azure.getAllTopicsWithSubs(namespaceId, resourceGroup, azureToken, currentTokenCredentials.subscriptionId);
-				currentNamespaceConnectionString = await azure.getConnectionString(azureToken, currentTokenCredentials.subscriptionId, resourceGroup, namespaceId);
+				const topicsAndSubscriptions = await azure.getAllTopicsWithSubs(namespaceId, resourceGroup, azureToken, subscriptionId);
+				const currentNamespaceConnectionString = await azure.getConnectionString(azureToken, subscriptionId, resourceGroup, namespaceId);
 				logger.info('Topic and subscriptions info retrieving');
-				return topicsAndSubscriptions;
+				return { topicsAndSubscriptions, currentNamespaceConnectionString };
 			} catch (err) {
 				logger.error(err);
 				throw createBadRequest(err.message);
 			}
 		};
 
-		const peekDlq = async (topic, subscription, numMessages) => {
+		const peekDlq = async (topic, subscription, numMessages, currentNamespaceConnectionString) => {
 			try {
 				const busConfig = getBusConfig(topic, subscription, currentNamespaceConnectionString);
 				const { start: startBus, stop: stopBus } = initBus();
@@ -73,23 +68,25 @@ module.exports = () => {
 			}
 		};
 
-		const purgeDlq = async (topic, subscription) => {
+		const purgeDlq = async (topic, subscription, currentNamespaceConnectionString) => {
 			try {
 				const busConfig = getBusConfig(topic, subscription, currentNamespaceConnectionString);
 				const { start: startBus, stop: stopBus } = initBus();
 				const bus = await startBus({ config: busConfig });
-				const messageHandler = async message => { message.complete(); };
+				const messageHandler = async message => {
+					message.complete();
+				};
 				await bus.processDlq(config.subscriptionToAnalyzeId, messageHandler);
 				await stopBus();
-				logger.info('Peek DLQ processed properly');
-				return 'Peek DLQ processed properly';
+				logger.info('Delete DLQ processed properly');
+				return 'Delete DLQ processed properly';
 			} catch (err) {
 				logger.error(err);
 				throw createBadRequest(err.message);
 			}
 		};
 
-		const peekActive = async (topic, subscription, numMessages) => {
+		const peekActive = async (topic, subscription, numMessages, currentNamespaceConnectionString) => {
 			try {
 				const busConfig = getBusConfig(topic, subscription, currentNamespaceConnectionString);
 				const { start: startBus, stop: stopBus } = initBus();
@@ -105,7 +102,7 @@ module.exports = () => {
 			}
 		};
 
-		const purgeActive = async (topic, subscription) => {
+		const purgeActive = async (topic, subscription, currentNamespaceConnectionString) => {
 			try {
 				const busConfig = getBusConfig(topic, subscription, currentNamespaceConnectionString);
 				const { start: startBus, stop: stopBus } = initBus();
@@ -121,7 +118,7 @@ module.exports = () => {
 				};
 				subscribe()(config.subscriptionToAnalyzeId, onMessageHanlder);
 				logger.info('Deleted Active Messages properly');
-				return 'Deleted all messages';
+				return 'Deleted all Active Messages properly';
 			} catch (err) {
 				logger.error(err);
 				throw createBadRequest(err.message);

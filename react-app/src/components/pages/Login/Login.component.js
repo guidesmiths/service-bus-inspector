@@ -3,6 +3,7 @@ import { Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Toaster from '../../commons/Toaster/Toaster.container';
 import { withRouter } from 'react-router-dom';
+import { ReactComponent as Logo } from '../../../assets/gs_icon.svg';
 
 import './Login.css';
 
@@ -40,10 +41,10 @@ const Login = ({ resetToaster, history, toastMessage, signIn, hasValidToken, che
     <div className="loginContainer">
       {toastMessage !== [] && toastMessage.map((element, index) => <Toaster key={index} message={element.message} action={element.action} />)}
       <form className="cardCustom" onSubmit={onClickLogin}>
-        <h5>Login</h5>
+        <h5><Logo /><b className="titleText">Service Bus Inspector</b></h5>
         <div className="input-group mb-3 inputWrap">
           <input
-            type="text"
+            type="password"
             onKeyPress={event => keyPressed(event)}
             className={'form-control' + (clientId === '' && submitted === true ? ' is-invalid' : '')}
             required
@@ -54,7 +55,7 @@ const Login = ({ resetToaster, history, toastMessage, signIn, hasValidToken, che
           />
           <div className="invalid-feedback">Client ID is required.</div>
           <input
-            type="text"
+            type="password"
             onKeyPress={event => keyPressed(event)}
             className={'form-control' + (clientSecret === '' && submitted === true ? ' is-invalid' : '')}
             required
@@ -65,7 +66,7 @@ const Login = ({ resetToaster, history, toastMessage, signIn, hasValidToken, che
           />
           <div className="invalid-feedback">Client Secret is required.</div>
           <input
-            type="text"
+            type="password"
             onKeyPress={event => keyPressed(event)}
             className={'form-control' + (appTenantId === '' && submitted === true ? ' is-invalid' : '')}
             required
@@ -76,7 +77,7 @@ const Login = ({ resetToaster, history, toastMessage, signIn, hasValidToken, che
           />
           <div className="invalid-feedback">Tenant ID is required.</div>
           <input
-            type="text"
+            type="password"
             onKeyPress={event => keyPressed(event)}
             className={'form-control' + (subscriptionId === '' && submitted === true ? ' is-invalid' : '')}
             required

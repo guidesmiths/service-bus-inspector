@@ -1,119 +1,121 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import ButtonRow from '../../commons/ButtonRow/ButtonRow';
 import DeleteModal from '../../commons/DeleteModal/DeleteModal';
 import Card from '../../commons/Card/Card';
 import Toaster from '../../commons/Toaster/Toaster.container';
 import NavBar from '../../commons/NavBar/NavBar';
+import { getActive, getDlq, deleteActive, deleteDlq } from '../../../api/contentAPI';
 import './BusConnection.css';
 
-const BusConnection = ({ content, activeList, dlqList, getDlq, getActive, deleteDlq, isLoading, setLoading, toastMessage, deleteActive, match, location, hasValidToken, checkToken, isCheckingToken, ...props }) => {
-  useEffect(() => {
-    checkToken();
-  }, [checkToken]);
+const BusConnection = ({ isLoading, setLoading, toastMessage, setToasterMessage, hasValidToken, checkToken, isCheckingToken, busConnectionParams, ...props }) => {
+	const { mode, namespace, topic, subscription, activeCount, dlqCount } = busConnectionParams;
 
-  useEffect(() => {
-    !hasValidToken && props.history.push('/login');
-  }, [hasValidToken, props.history]);
+	const [numDlq, setNumDlq] = useState(dlqCount > 20 ? 20 : dlqCount);
+	const [numActive, setNumActive] = useState(activeCount > 20 ? 20 : activeCount);
+	const [totalDlq, setTotalDlq] = useState(dlqCount);
+	const [totalActive, setTotalActive] = useState(activeCount);
+	const [listOfMessages, setListOfMessages] = useState([]);
+	const [deleteMode, setDeleteMode] = useState(false);
 
-  useEffect(() => {
-    if (!isCheckingToken && hasValidToken) {
-      if (match.params.activeordlq === 'peekactive') {
-        onClickPeekActive();
-      }
-      if (match.params.activeordlq === 'peekdlq') {
-        onClickPeekDlq();
-      }
-    }
-  }, [isCheckingToken, hasValidToken]);
+	useEffect(() => {
+		checkToken();
+	}, [checkToken]);
 
-  const [nowIn, setNowIn] = useState(match.params.activeordlq);
-  const [nameSpace] = useState(match.params.namespace);
-  const [topic] = useState(match.params.topic);
-  const [sub] = useState(match.params.subscription);
-  const [numDlq, setNumDlq] = useState(match.params.messagecount);
-  const [numActive, setNumActive] = useState(match.params.messagecount);
+	useEffect(() => {
+		!hasValidToken && props.history.push('/login');
+		!subscription && props.history.push('/home');
+	}, [hasValidToken, props.history, subscription]);
 
-  const onClickModal = value => setNowIn(value);
-  const onClickNumActiveMessage = value => setNumActive(value);
-  const onClickNumDlqMessage = value => setNumDlq(value);
+	useEffect(() => {
+		if (!isCheckingToken && hasValidToken) {
+			getMessages();
+		}
+	}, [isCheckingToken, hasValidToken, mode, numDlq, numActive, setToasterMessage, setLoading]);
 
-  const onClickPeekDlq = () => {
-    getDlq({ nameSpace, topic, sub, numDlq });
-    setLoading(true);
-  };
+	const getMessages = async () => {
+		const sharedParams = { namespace, topic, subscription };
+		try {
+			setLoading(true);
+			const content = await (mode === 'peekactive' ? getActive({ numMessages: numActive, ...sharedParams }) : getDlq({ numMessages: numDlq, ...sharedParams }));
+			if (content.length === 0) {
+				setToasterMessage({ message: 'There are no messages in this queue', action: 'No Messages' });
+				setListOfMessages([]);
+			} else {
+				setListOfMessages(content);
+			}
+		} catch (error) {
+			setToasterMessage({ message: error.message, action: 'Error Getting Messages' });
+			setListOfMessages([]);
+		} finally {
+			setLoading(false);
+		}
+	};
 
-  const onClickPeekActive = () => {
-    getActive({ nameSpace, topic, sub, numActive });
-    setLoading(true);
-  };
+	const deleteMessages = async () => {
+		try {
+			setLoading(true);
+			const response = await (mode === 'peekactive' ? deleteActive(topic, subscription) : deleteDlq(topic, subscription));
+			setToasterMessage({ message: 'Messages deleted successfully', action: response });
+			setListOfMessages([]);
+			if (mode === 'peekactive') {
+				setNumActive(0);
+				setTotalActive(0);
+			} else {
+				setNumDlq(0);
+				setTotalDlq(0);
+			}
+		} catch (error) {
+			setToasterMessage({ message: error.message, action: 'Error Deleting Active Messages' });
+		} finally {
+			setLoading(false);
+		}
+	};
 
-  const confirmedDeleteDlq = () => {
-    setLoading(true);
-    if (nowIn === 'deletedlq') deleteDlq({ topic, sub, nameSpace });
-    if (nowIn === 'deleteActive') deleteActive({ topic, sub, nameSpace });
-  };
-
-  return (
-    <>
-      <NavBar />
-      <div className="busConnectionContainer">
-        {toastMessage !== [] && toastMessage.map((element, index) => <Toaster key={index} message={element.message} action={element.action} />)}
-        <div className="wrap">
-          <div className="nameContainer">
-            <div className="title">Namespace</div>
-            <div className="subtitle">{nameSpace}</div>
-          </div>
-          <div className="nameContainer">
-            <div className="title">Topic</div>
-            <div className="subtitle">{topic}</div>
-          </div>
-          <div className="nameContainer">
-            <div className="title">Subscription</div>
-            <div className="subtitle">{sub}</div>
-          </div>
-        </div>
-        <ButtonRow
-          peekDlqMethod={onClickPeekDlq}
-          openModal={value => onClickModal(value)}
-          isLoading={isLoading}
-          peekActiveMethod={onClickPeekActive}
-          numDlqMessage={onClickNumDlqMessage}
-          numActiveMessage={onClickNumActiveMessage}
-          isActive={match.params.activeordlq === 'peekactive' ? true : false}
-          dlqMessages={dlqList.length}
-          activeMessages={activeList.length}
-        />
-        <div className="card-list">
-          {nowIn === 'peekdlq' ? (
-            content.length > 0 &&
-            content.map(card => (
-              <Card
-                nowIn={nowIn}
-                cardJson={card}
-                key={card.messageId}
-                header={card.messageId}
-                errorDescription={card.userProperties.DeadLetterErrorDescription}
-                deadLetterReason={card.userProperties.DeadLetterReason}
-                attemptCount={card.userProperties.attemptCount}
-              />
-            ))
-          ) : nowIn === 'peekactive' ? (
-            activeList.length > 0 &&
-            activeList.map(card => <Card nowIn={nowIn} cardJson={card} key={card.messageId} header={card.messageId} errorDescription={card.body.value} deadLetterReason={card.deliveryCount} attemptCount={card.userProperties.attemptCount} />)
-          ) : nowIn === 'deletedlq' || nowIn === 'deleteActive' ? (
-            <DeleteModal onConfirmDelete={confirmedDeleteDlq} modalAction={nowIn} onCloseModal={() => setNowIn('')} dlqMessages={match.params.messagecount} activeMessages={match.params.messagecount} />
-          ) : (
-            ''
-          )}
-        </div>
-      </div>
-    </>
-  );
-};
-
-BusConnection.propTypes = {
-  getDlq: PropTypes.func.isRequired
+	return (
+		<>
+			<NavBar />
+			<div className="busConnectionContainer">
+				{toastMessage !== [] && toastMessage.map((element, index) => <Toaster key={index} message={element.message} action={element.action} />)}
+				<div className="wrap">
+					<div className="nameContainer">
+						<div className="title">Namespace</div>
+						<div className="subtitle">{namespace}</div>
+					</div>
+					<div className="nameContainer">
+						<div className="title">Topic</div>
+						<div className="subtitle">{topic}</div>
+					</div>
+					<div className="nameContainer">
+						<div className="title">Subscription</div>
+						<div className="subtitle">{subscription}</div>
+					</div>
+				</div>
+				<ButtonRow
+					peekMethod={mode === 'peekactive' ? setNumActive : setNumDlq}
+					openModal={() => setDeleteMode(true)}
+					isLoading={isLoading}
+					isActive={mode === 'peekactive'}
+					numOfMessages={mode === 'peekactive' ? numActive : numDlq}
+					totalOfMessages={mode === 'peekactive' ? totalActive : totalDlq}
+				/>
+				<div className="card-list">
+					{listOfMessages.length > 0 &&
+						listOfMessages.map(card => (
+							<Card
+								mode={mode}
+								cardJson={card}
+								key={card.messageId}
+								header={card.messageId}
+								errorDescription={card.userProperties.DeadLetterErrorDescription}
+								deadLetterReason={card.userProperties.DeadLetterReason}
+								attemptCount={card.userProperties.attemptCount}
+							/>
+						))}
+				</div>
+				{deleteMode ? <DeleteModal onConfirmDelete={deleteMessages} modalAction={mode} onCloseModal={() => setDeleteMode(false)} dlqMessages={dlqCount} activeMessages={activeCount} /> : null}
+			</div>
+		</>
+	);
 };
 
 export default BusConnection;
