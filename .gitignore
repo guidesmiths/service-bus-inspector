@@ -8,3 +8,4 @@ react-app/build
 .vscode
 *.DS_Store
 .editorconfig
+.idea/
