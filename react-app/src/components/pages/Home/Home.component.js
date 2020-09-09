@@ -10,31 +10,33 @@ import './Home.css';
 const Home = ({ getTopics, topics, toastMessage, namespaces, getNamespaces, selectNamespace, selectedNamespace, loading, hasValidToken, checkToken, isCheckingToken, ...props }) => {
 	useEffect(() => {
 		checkToken();
-	}, [checkToken]);
+	}, [])
 
 	useEffect(() => {
-		if (!isCheckingToken) {
-			hasValidToken ? getNamespaces() : props.history.push('/login');
+		if (hasValidToken) {
+			getNamespaces()
+		} else if (!hasValidToken && !isCheckingToken) {
+			props.history.push('/login');
 		}
-	}, [hasValidToken, isCheckingToken, getNamespaces, props.history]);
+	}, [isCheckingToken])
 
 	useEffect(() => {
-		const onSelectNameSpace = nameSpaceSelected => {
-			selectNamespace(nameSpaceSelected);
-			const wholeNamespace = namespaces.filter(namespace => namespace.name === nameSpaceSelected);
-			if (wholeNamespace.length > 0) {
-				const splittedId = wholeNamespace[0].id.split('resourceGroups/');
-				const resourceGroup = splittedId[1].substr(0, splittedId[1].indexOf('/'));
-				if (resourceGroup !== undefined) {
-					getTopics({ namespace: nameSpaceSelected, resourceGroup: resourceGroup });
-				}
-			}
-		};
-
 		if (!isCheckingToken && namespaces.length > 0) {
 			onSelectNameSpace(selectedNamespace === '' ? namespaces[0].name : selectedNamespace);
 		}
-	}, [isCheckingToken, namespaces, selectedNamespace, selectNamespace, getTopics]);
+	}, [namespaces, selectedNamespace]);
+
+	const onSelectNameSpace = nameSpaceSelected => {
+		selectNamespace(nameSpaceSelected);
+		const wholeNamespace = namespaces.filter(namespace => namespace.name === nameSpaceSelected);
+		if (wholeNamespace.length > 0) {
+			const splittedId = wholeNamespace[0].id.split('resourceGroups/');
+			const resourceGroup = splittedId[1].substr(0, splittedId[1].indexOf('/'));
+			if (resourceGroup !== undefined) {
+				getTopics({ namespace: nameSpaceSelected, resourceGroup: resourceGroup });
+			}
+		}
+	};
 
 	return (
 		<>

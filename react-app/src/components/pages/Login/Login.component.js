@@ -6,7 +6,7 @@ import { ReactComponent as Logo } from '../../../assets/gs_icon.svg';
 
 import './Login.css';
 
-const Login = ({ history, signIn, hasValidToken }) => {
+const Login = ({ history, signIn, hasValidToken, checkToken, isCheckingToken }) => {
 	const [clientId, setClientId] = useState('');
 	const [clientSecret, setClientSecret] = useState('');
 	const [appTenantId, setAppTenantId] = useState('');
@@ -27,7 +27,11 @@ const Login = ({ history, signIn, hasValidToken }) => {
 	};
 
 	useEffect(() => {
-		if (hasValidToken) {
+		checkToken()
+	}, [])
+
+	useEffect(() => {
+		if (hasValidToken && !isCheckingToken) {
 			history.push('/home');
 		}
 	}, [hasValidToken, history]);

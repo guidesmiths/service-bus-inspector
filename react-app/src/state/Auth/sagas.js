@@ -18,6 +18,8 @@ function* signInSaga(credentials) {
 
 function* checkTokenSaga() {
   try {
+    const token = localStorage.getItem('token');
+    if (!token) throw Error;
     const isValid = yield contentAPI.checkToken();
     yield put(authActions.setTokenValidity(isValid));
   } catch (error) {
