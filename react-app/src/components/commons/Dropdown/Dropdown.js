@@ -5,19 +5,19 @@ const Dropdown = ({ items = [], itemSelected, selectedNamespace }) => (
     <div>
         <select
             className="browser-default custom-select"
-            onChange={(e) =>{ 
+            onChange={(e) => {
                 itemSelected(e.target.value)
             }}
         >
             {selectedNamespace ? <option>{selectedNamespace}</option> : ''}
-            {selectedNamespace ? items.filter(item => item.name !== selectedNamespace).map(item => (
+            {selectedNamespace ? items.sort((a, b) => a.name.localeCompare(b.name)).filter(item => item.name !== selectedNamespace).map(item => (
                 <option
                     key={item.name}
                     value={item.value}
                 >
                     {item.name}
                 </option>
-            )) : items.map(item => (
+            )) : items.sort((a, b) => a.name.localeCompare(b.name)).map(item => (
                 <option
                     key={item.name}
                     value={item.value}
