@@ -2,7 +2,6 @@ export default {
   toastNotifications: [],
   topics: [],
   namespaces: [],
-  selectedNamespace: '',
   busConnectionParams: {
     mode: '',
     namespace: '',

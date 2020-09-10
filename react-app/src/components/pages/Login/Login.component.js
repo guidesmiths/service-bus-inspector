@@ -32,7 +32,7 @@ const Login = ({ history, signIn, hasValidToken, checkToken, isCheckingToken }) 
 
 	useEffect(() => {
 		if (hasValidToken && !isCheckingToken) {
-			history.push('/home');
+			history.push('/home/default');
 		}
 	}, [hasValidToken, history]);
 

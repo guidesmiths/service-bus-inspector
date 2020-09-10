@@ -2,7 +2,7 @@ import React from 'react';
 import './Dropdown.css';
 
 const Dropdown = ({ items = [], itemSelected, selectedNamespace }) => (
-    <div>
+    <div style={{ minWidth: 285 }}>
         <select
             className="browser-default custom-select"
             onChange={(e) => {

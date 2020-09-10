@@ -13,6 +13,4 @@ export const getNamespaces = createAction(actionTypes.GET_NAMESPACES);
 
 export const setNamespaces = createAction(actionTypes.SET_NAMESPACES, content => ({ content }));
 
-export const selectNamespace = createAction(actionTypes.SELECT_NAMESPACE, content => ({ content }));
-
 export const setBusConnectionParams = createAction(actionTypes.SET_BUS_CONNECTION_PARAMS, content => ({ content }));

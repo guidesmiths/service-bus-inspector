@@ -20,10 +20,6 @@ export default handleActions(
       ...state,
       namespaces: content
     }),
-    [content.selectNamespace]: (state, { payload: { content } }) => ({
-      ...state,
-      selectedNamespace: content
-    }),
     [content.setBusConnectionParams]: (state, { payload: { content } }) => ({
       ...state,
       busConnectionParams: {

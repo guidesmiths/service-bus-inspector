@@ -8,7 +8,7 @@ const AppRouter = () => (
   <Router>
     <Switch>
       <Route path="/busconnection" exact component={BusConnection} />
-      <Route path="/home" exact component={Home} />
+      <Route path="/home/:namespace" exact component={Home} />
       <Route path="/login" exact component={Login} />
       <Route render={() => <Redirect to="/home" />} />
     </Switch>
