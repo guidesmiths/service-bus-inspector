@@ -1,31 +1,22 @@
 import React from 'react';
 import './ButtonRow.css';
 
-const ButtonRow = ({ peekMethod, peekDlqMethod, openModal, isLoading, isActive, numOfMessages, totalOfMessages }) => {
-	const [msgCount, setMsgCount] = React.useState(numOfMessages);
-
-	React.useEffect(() => {
-		setMsgCount(numOfMessages);
-	}, [numOfMessages]);
+const ButtonRow = ({ openModal, isLoading, activeCount, dlqCount }) => {
 
 	return (
 		<div className="buttonRowContainer">
 			<div className="buttonContainer">
-				<button type="button btn" className="btn btn-info" disabled={isLoading} onClick={() => peekMethod(msgCount)}>
-					{isLoading && <span className="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>}
-					{isActive ? 'Peek Active' : 'Peek DLQ'}
+				{isLoading && <button type="button btn" className="btn btn-info" disabled={true}><span className="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>Loading...</button>}
+				{activeCount !== 0 &&
+				<button type="button btn" className="btn btn-info" disabled={isLoading || activeCount === 0} onClick={() => openModal('active')}>
+					Delete ALL {activeCount} Active Mesages
 				</button>
-				<div className="connectionRow">
-					<div className="input-group mb-6">
-						<input type="number" min="0" className="form-control" value={msgCount} aria-label="Recipient's username" aria-describedby="button-addon2" name="connectionString" onChange={e => setMsgCount(e.target.value)} />
-					</div>
-				</div>
-			</div>
-			<div className="buttonContainer">
-				<button type="button btn" className="btn btn-info" disabled={isLoading || totalOfMessages === 0} onClick={() => openModal('deleteActive')}>
-					{isLoading && <span className="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>}
-					{totalOfMessages === 0 ? `No Messages to be deleted` : isActive ? `Delete ALL (${totalOfMessages}) Active Mesages` : `Delete ALL (${totalOfMessages}) DLQ Mesages`}
+				}
+				{dlqCount !== 0 &&
+				<button type="button btn" className="btn btn-info" disabled={isLoading || dlqCount === 0} onClick={() => openModal('dlq')}>
+					Delete ALL {dlqCount} DLQ Mesages
 				</button>
+				}
 			</div>
 		</div>
 	);

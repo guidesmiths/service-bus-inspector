@@ -28,7 +28,7 @@
 }
 
 .jsonViewerContainer {
-  width: 50%;
+  width: 95%;
   max-height: 300px;
   overflow: scroll;
   margin-top: 15px;
@@ -36,7 +36,7 @@
 }
 
 .seeMoreButton {
-  width: 15%;
+  width: fit-content;
   float: right;
   line-height: 1.15 !important;
 }

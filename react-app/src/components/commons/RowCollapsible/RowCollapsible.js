@@ -1,16 +1,11 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setBusConnectionParams } from '../../../state/Azure/actionCreators';
-
 import './RowCollapsible.css';
 
 const RowCollapsible = ({ subscription, topicName, topicNameUnparsed, namespace, history }) => {
-  const dispatch = useDispatch();
 
-  const onClickSubscription = (mode, subscription, namespace, topicNameUnparsed) => {
-    dispatch(setBusConnectionParams({ mode, subscription, namespace, topicNameUnparsed }));
-    history.push('/busconnection');
+  const onClickSubscription = (subscription, namespace, topicNameUnparsed) => {
+    history.push(`/busconnection/${namespace}/${subscription.name}/${topicNameUnparsed}`);
   };
 
   return subscription !== '' ? (
@@ -35,11 +30,8 @@ const RowCollapsible = ({ subscription, topicName, topicNameUnparsed, namespace,
       <td className="hiddenRow">
         <div className="accordian-body collapse show" id={topicName}>
           <div className="iconContainer">
-            <button className="linkSpan" onClick={() => onClickSubscription('peekactive', subscription, namespace, topicNameUnparsed)}>
-              Read <b>Active</b>
-            </button>
-            <button className="linkSpan" onClick={() => onClickSubscription('peekdlq', subscription, namespace, topicNameUnparsed)}>
-              Read <b>DLQ</b>
+            <button className="linkSpan" onClick={() => onClickSubscription(subscription, namespace, topicNameUnparsed)}>
+                <b>See Detail</b>
             </button>
           </div>
         </div>

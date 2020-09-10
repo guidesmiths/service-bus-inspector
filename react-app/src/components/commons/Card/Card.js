@@ -14,15 +14,15 @@ const Card = ({ header, errorDescription, deadLetterReason, attemptCount, cardJs
     }
     return (
         <div className="card cardStyle">
-            <div className="card-header"> 
+            <div className="card-header">
                 <div>
                 <strong>ID</strong>
                 <span> {header}</span>
                 </div>
-                <button className="seeMoreButton btn btn-info" onClick={() => buttonHandler()}>See Raw Message Info</button>
+                <button className="seeMoreButton btn btn-info" onClick={() => buttonHandler()}>Raw Message</button>
             </div>
             <div className="card-body">
-            {nowIn === 'peekdlq' && 
+            {nowIn === 'peekdlq' &&
                 <div className="cardInfoRow">
                     <strong>Error description: </strong>
                     <span>{errorDescription}</span>

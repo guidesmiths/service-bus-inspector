@@ -7,10 +7,10 @@ import Login from './components/pages/Login/Login.container';
 const AppRouter = () => (
   <Router>
     <Switch>
-      <Route path="/busconnection" exact component={BusConnection} />
+      <Route path="/busconnection/:namespace/:subscription/:topic" exact component={BusConnection} />
       <Route path="/home/:namespace" exact component={Home} />
       <Route path="/login" exact component={Login} />
-      <Route render={() => <Redirect to="/home" />} />
+      <Route render={() => <Redirect to="/home/default" />} />
     </Switch>
   </Router>
 );
