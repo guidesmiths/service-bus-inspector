@@ -19,18 +19,12 @@ const BusConnection = ({ isLoading, setLoading, toastMessage, setToasterMessage,
 
 	useEffect(() => {
 		checkToken();
-	}, [checkToken]);
-
-	useEffect(() => {
-		!hasValidToken && props.history.push('/login');
-		!subscription && props.history.push('/home');
-	}, [hasValidToken, props.history, subscription]);
-
-	useEffect(() => {
-		if (!isCheckingToken && hasValidToken) {
-			getMessages();
+		if (hasValidToken) {
+			getMessages()
+		} else {
+			props.history.push('/login');
 		}
-	}, [isCheckingToken, hasValidToken, mode, numDlq, numActive, setToasterMessage, setLoading]);
+	}, []);
 
 	const getMessages = async () => {
 		const sharedParams = { namespace, topic, subscription };
