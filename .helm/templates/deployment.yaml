@@ -1,4 +1,4 @@
-apiVersion: apps/v1beta2
+apiVersion: {{ .Values.apiVersion }}
 kind: Deployment
 metadata:
   name: {{ include ".helm.fullname" . }}
@@ -41,7 +41,7 @@ spec:
             initialDelaySeconds: 30
             periodSeconds: 90
             timeoutSeconds: 5
-            failureThreshold: 10  
+            failureThreshold: 10
           readinessProbe:
             httpGet:
               path: /__/health
