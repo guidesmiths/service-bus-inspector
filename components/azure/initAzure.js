@@ -119,8 +119,22 @@ module.exports = () => {
 			}
 		};
 
+		const getSubscriptionDetail = async (azureToken, subscriptionId, resourceGroupName, namespaceName, topicName, subscriptionName) => {
+			const url = `https://management.azure.com/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/${namespaceName}/topics/${topicName}/subscriptions/${subscriptionName}?api-version=2017-04-01`;
+			const response = await axios.get(
+				url,
+				{
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${azureToken}`,
+					},
+				},
+			);
+			return response;
+		}
 
-		return { authorize, getAllTopicsWithSubs, getNamespaces, getConnectionString };
+
+		return { authorize, getAllTopicsWithSubs, getNamespaces, getConnectionString, getSubscriptionDetail };
 	};
 
 	return { start };

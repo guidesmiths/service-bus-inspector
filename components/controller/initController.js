@@ -52,6 +52,17 @@ module.exports = () => {
 			}
 		};
 
+		const getSubscriptionDetail = async (azureToken, subscriptionId, resourceGroupName, namespaceName, topicName, subscriptionName) => {
+			try {
+				const subscriptionDetail = await azure.getSubscriptionDetail(azureToken, subscriptionId, resourceGroupName, namespaceName, topicName, subscriptionName);
+				logger.info('Retrieving subscription detail')
+				return subscriptionDetail;
+			} catch (err) {
+				logger.error('Error retrieving subscription detail', err)
+				throw createBadRequest(err.message)
+			}
+		}
+
 		const peekDlq = async (topic, subscription, numMessages, currentNamespaceConnectionString) => {
 			try {
 				const busConfig = getBusConfig(topic, subscription, currentNamespaceConnectionString);
@@ -125,7 +136,7 @@ module.exports = () => {
 			}
 		};
 
-		return { authorize, getNamespaces, getAllTopicsWithSubs, peekDlq, purgeDlq, peekActive, purgeActive };
+		return { authorize, getNamespaces, getAllTopicsWithSubs, peekDlq, purgeDlq, peekActive, purgeActive, getSubscriptionDetail };
 	};
 
 	return { start };

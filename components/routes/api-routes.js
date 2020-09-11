@@ -106,6 +106,15 @@ module.exports = () => {
 				.then(result => res.json(result))
 				.catch(next);
 		});
+
+		app.get('/subscription-detail', isTokenValid, (req, res, next) => {
+			const { authorization } = req.headers;
+			const { resourceGroupName, namespaceName, topicName, subscriptionName } = req.body;
+			controller
+				.getSubscriptionDetail(authorization, req.session.credentials.subscriptionId, resourceGroupName, namespaceName, topicName, subscriptionName)
+				.then(response => res.json(response))
+				.catch(err => next(err));
+		});
 	};
 
 	return { start };
