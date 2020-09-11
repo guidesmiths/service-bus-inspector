@@ -101,6 +101,19 @@ export const getTopics = body =>
     .then(handlingResponse([200], 'Error trying to get content'))
     .catch(logError);
 
+export const getSubscriptionDetail = async body => {
+    const response = await axios({
+        method: 'post',
+        url: '/subscription-detail',
+        headers: {
+            Authorization: localStorage.getItem('token')
+        },
+        data: body
+    })
+    console.log(response);
+        return response;
+};
+
 export const checkToken = async () => {
   const response = await axios({
     method: 'get',

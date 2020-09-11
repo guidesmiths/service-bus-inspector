@@ -2,10 +2,9 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import './RowCollapsible.css';
 
-const RowCollapsible = ({ subscription, topicName, topicNameUnparsed, namespace, history }) => {
-
-  const onClickSubscription = (subscription, namespace, topicNameUnparsed) => {
-    history.push(`/busconnection/${namespace}/${subscription.name}/${topicNameUnparsed}`);
+const RowCollapsible = ({ subscription, topicName, topicNameUnparsed, namespace, history, resourceGroup }) => {
+  const onClickSubscription = (subscription, namespace, topicNameUnparsed, resourceGroup) => {
+    history.push(`/busconnection/${resourceGroup}/${namespace}/${subscription.name}/${topicNameUnparsed}/`);
   };
 
   return subscription !== '' ? (
@@ -30,7 +29,7 @@ const RowCollapsible = ({ subscription, topicName, topicNameUnparsed, namespace,
       <td className="hiddenRow">
         <div className="accordian-body collapse show" id={topicName}>
           <div className="iconContainer">
-            <button className="linkSpan" onClick={() => onClickSubscription(subscription, namespace, topicNameUnparsed)}>
+            <button className="linkSpan" onClick={() => onClickSubscription(subscription, namespace, topicNameUnparsed, resourceGroup)}>
                 <b>See Detail</b>
             </button>
           </div>

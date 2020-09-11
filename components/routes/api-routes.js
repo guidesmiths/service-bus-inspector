@@ -107,11 +107,11 @@ module.exports = () => {
 				.catch(next);
 		});
 
-		app.get('/subscription-detail', isTokenValid, (req, res, next) => {
+		app.post('/subscription-detail', isTokenValid, (req, res, next) => {
 			const { authorization } = req.headers;
-			const { resourceGroupName, namespaceName, topicName, subscriptionName } = req.body;
+			const { resourcegroup, namespace, topic, subscription } = req.body;
 			controller
-				.getSubscriptionDetail(authorization, req.session.credentials.subscriptionId, resourceGroupName, namespaceName, topicName, subscriptionName)
+				.getSubscriptionDetail(authorization, req.session.credentials.subscriptionId, resourcegroup, namespace, topic, subscription)
 				.then(response => res.json(response))
 				.catch(err => next(err));
 		});

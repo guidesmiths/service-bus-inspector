@@ -130,7 +130,7 @@ module.exports = () => {
 					},
 				},
 			);
-			return response;
+			return response.data;
 		};
 
 

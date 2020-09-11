@@ -2,7 +2,7 @@ import React from 'react';
 import RowCollapsible from '../RowCollapsible/RowCollapsible';
 import './Row.css';
 
-const Row = ({ topic, namespace }) => (
+const Row = ({ topic, namespace, resourceGroup }) => (
     <>
         <tr
             data-toggle="collapse"
@@ -29,6 +29,7 @@ const Row = ({ topic, namespace }) => (
                         topicNameUnparsed={topic.topic}
                         key={`${topic.topic}-${index}`}
                         namespace={namespace}
+                        resourceGroup={resourceGroup}
                     />
                 )) : <RowCollapsible
                     subscription=""
@@ -36,6 +37,7 @@ const Row = ({ topic, namespace }) => (
                     key={topic.topic}
                     topicNameUnparsed={topic.topic}
                     namespace={namespace}
+                    resourceGroup={resourceGroup}
                 />
         }
     </>

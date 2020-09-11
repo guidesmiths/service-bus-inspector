@@ -30,6 +30,20 @@ tr {
   background-color: white;
   color: #17ad8d;
   font-size: 14px;
-  padding-left: 15px;
-  padding-left: 60px;
+  padding-left: 5px;
+}
+
+.input {
+  border-radius: 25px;
+  margin: 5px;
+  min-width: 400px;
+  border: 0;
+  margin-left: 20px;
+  font-size: 15px;
+  padding: 5px 5px 5px 13px;
+  box-shadow: 1px 1px #b7b7b7;
+}
+
+.input:focus {
+  outline: none;
 }

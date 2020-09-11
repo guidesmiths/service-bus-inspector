@@ -9,6 +9,7 @@ import './Home.css';
 
 const Home = ({ getTopics, topics, toastMessage, namespaces, getNamespaces, loading, hasValidToken, checkToken, isCheckingToken, ...props }) => {
 	const [selectedNamespace, setSelectedNamespace] = useState(props.match.params.namespace);
+	const [currentResourceGroup, setCurrentResourceGroup] = useState('');
 
 	useEffect(() => {
 		checkToken();
@@ -26,25 +27,46 @@ const Home = ({ getTopics, topics, toastMessage, namespaces, getNamespaces, load
 			if (wholeNamespace.length > 0) {
 				const splittedId = wholeNamespace[0].id.split('resourceGroups/');
 				const resourceGroup = splittedId[1].substr(0, splittedId[1].indexOf('/'));
-				if (resourceGroup !== undefined) getTopics({ namespace: selectedNamespace, resourceGroup: resourceGroup });
+				setCurrentResourceGroup(resourceGroup);
+				if (resourceGroup !== undefined) getTopics({
+					namespace: selectedNamespace,
+					resourceGroup: resourceGroup
+				});
 			}
 		}
 	}, [namespaces, selectedNamespace]);
 
+	useEffect(() => {
+		props.history.push(`/home/${selectedNamespace}`);
+	}, [selectedNamespace])
+
 	return (
 		<>
-			<NavBar />
-			<LoadingBar className="loadingBar" />
-
+			<NavBar/>
+			<LoadingBar className="loadingBar"/>
 			<div className="homeContainer">
 				<div className="dropdownContainer">
-					{toastMessage !== [] && toastMessage.map((element, index) => <Toaster key={index} message={element.message} action={element.action} />)}
+					{toastMessage !== [] && toastMessage.map((element, index) =>
+						<Toaster key={index}
+						         message={element.message}
+						         action={element.action}
+						/>
+					)}
 					<span>Select Bus: </span>
-					<CommonDropdown items={namespaces} itemSelected={setSelectedNamespace} selectedNamespace={selectedNamespace} />
+					<CommonDropdown
+						items={namespaces}
+						itemSelected={setSelectedNamespace}
+						selectedNamespace={selectedNamespace}
+					/>
 				</div>
 				{selectedNamespace !== undefined && topics.length > 0 && loading === 0 ? (
 					<div className="tableContainer">
-						<Table topics={topics} namespace={selectedNamespace} />
+						<Table
+							topics={topics}
+							namespace={selectedNamespace}
+							namespaces={namespaces}
+							resourceGroup={currentResourceGroup}
+						/>
 					</div>
 				) : selectedNamespace !== undefined && topics.length === 0 && loading === 0 ? (
 					<div className="loading">No topics for this namespace</div>
