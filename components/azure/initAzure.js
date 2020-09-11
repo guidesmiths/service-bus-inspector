@@ -131,7 +131,7 @@ module.exports = () => {
 				},
 			);
 			return response;
-		}
+		};
 
 
 		return { authorize, getAllTopicsWithSubs, getNamespaces, getConnectionString, getSubscriptionDetail };
