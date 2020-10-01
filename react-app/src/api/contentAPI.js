@@ -110,8 +110,7 @@ export const getSubscriptionDetail = async body => {
         },
         data: body
     })
-    console.log(response);
-        return response;
+    return response;
 };
 
 export const checkToken = async () => {
