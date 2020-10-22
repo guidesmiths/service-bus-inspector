@@ -123,11 +123,11 @@ module.exports = () => {
 					const onStop = logger.warn;
 					return bus.subscribe(onError, onStop);
 				};
-				const onMessageHanlder = async () => {
+				const onMessageHandler = async () => {
 					const activeMessages = await bus.peekActive(config.subscriptionToAnalyzeId, 1);
 					if (activeMessages.length < 1) await stopBus();
 				};
-				subscribe()(config.subscriptionToAnalyzeId, onMessageHanlder);
+				subscribe()(config.subscriptionToAnalyzeId, onMessageHandler);
 				logger.info('Deleted Active Messages properly');
 				return 'Deleted all Active Messages properly';
 			} catch (err) {
@@ -136,7 +136,24 @@ module.exports = () => {
 			}
 		};
 
-		return { authorize, getNamespaces, getAllTopicsWithSubs, peekDlq, purgeDlq, peekActive, purgeActive, getSubscriptionDetail };
+		const republishMessage = async (topic, subscription, currentNamespaceConnectionString, bodyMessage) => {
+			try {
+				const busConfig = getBusConfig(topic, subscription, currentNamespaceConnectionString);
+				const { start: startBus, stop: stopBus } = initBus();
+				const bus = await startBus({ config: busConfig });
+				const messageToPublish = { timestamp: new Date(), body: bodyMessage };
+				await bus.publish(topic)(messageToPublish);
+				stopBus();
+
+				logger.info('Message published succesfully');
+				return 'Message published succesfully';
+			} catch (err) {
+				logger.error(err);
+				throw createBadRequest(err.message);
+			}
+		};
+
+		return { authorize, getNamespaces, getAllTopicsWithSubs, peekDlq, purgeDlq, peekActive, purgeActive, getSubscriptionDetail, republishMessage };
 	};
 
 	return { start };

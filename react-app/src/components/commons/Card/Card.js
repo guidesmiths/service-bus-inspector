@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import ReactJson from 'react-json-view';
 import './Card.css';
 
-const Card = ({ header, errorDescription, deadLetterReason, attemptCount, cardJson, nowIn }) => {
+const Card = ({ header, errorDescription, deadLetterReason, attemptCount, cardJson, mode, onOpenPublishModal }) => {
     const [jsonViewerOpen, setJsonViewerOpen] = useState('none');
-
+    // console.log('mode :>> ', mode);
     const buttonHandler = () => {
         if (jsonViewerOpen === 'none') {
             setJsonViewerOpen('flex')
@@ -12,6 +12,7 @@ const Card = ({ header, errorDescription, deadLetterReason, attemptCount, cardJs
             setJsonViewerOpen('none')
         }
     }
+
     return (
         <div className="card cardStyle">
             <div className="card-header">
@@ -19,10 +20,13 @@ const Card = ({ header, errorDescription, deadLetterReason, attemptCount, cardJs
                 <strong>ID</strong>
                 <span> {header}</span>
                 </div>
+                {mode === 'peekDlq' &&
+                    <button className="seeMoreButton btn btn-info" onClick={() => onOpenPublishModal()}>Republish</button>
+                }
                 <button className="seeMoreButton btn btn-info" onClick={() => buttonHandler()}>Raw Message</button>
             </div>
             <div className="card-body">
-            {nowIn === 'peekdlq' &&
+            {mode === 'peekDlq' &&
                 <div className="cardInfoRow">
                     <strong>Error description: </strong>
                     <span>{errorDescription}</span>
@@ -30,7 +34,7 @@ const Card = ({ header, errorDescription, deadLetterReason, attemptCount, cardJs
                 }
                 <div className="deliveryAndAttemptCount">
                 <div className="cardInfoRow">
-                    <strong>{nowIn === 'peekdlq' ? 'Dead letter reason: ' : 'Delivery Count: '}</strong>
+                    <strong>{mode === 'peekDlq' ? 'Dead letter reason: ' : 'Delivery Count: '}</strong>
                     <span>{deadLetterReason}</span>
                 </div>
                 <div className="cardInfoRow">

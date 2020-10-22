@@ -115,6 +115,16 @@ module.exports = () => {
 				.then(response => res.json(response))
 				.catch(err => next(err));
 		});
+
+		app.post('/publish-message', isTokenValid, async (req, res, next) => {
+			const { topic, subscription, message } = req.body;
+			try {
+				const publication = await controller.republishMessage(topic, subscription, req.session.currentNamespaceConnectionString, message);
+				return res.json(publication);
+			} catch (err) {
+				return next(createBadRequest(err.message));
+			}
+		});
 	};
 
 	return { start };

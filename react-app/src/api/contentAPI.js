@@ -124,3 +124,20 @@ export const checkToken = async () => {
   });
   return response.data;
 };
+
+export const republishMessage = async (topic, subscription, message) => {
+  const response = await axios({
+    method: 'post',
+    url: '/publish-message',
+    headers: {
+      Authorization: localStorage.getItem('token')
+    },
+    data: {
+      message,
+      topic,
+      subscription
+    },
+  });
+  console.log('response here', response);
+  return response;
+};
