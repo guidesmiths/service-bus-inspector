@@ -26,7 +26,7 @@ module.exports = () => {
 			}
 		};
 
-		app.get('/tokenhealth', async (req, res, next) => {
+		app.get('/token-health', async (req, res, next) => {
 			try {
 				const { authorization } = req.headers;
 				const decodedToken = jwt.decode(authorization, { complete: true });
@@ -72,7 +72,7 @@ module.exports = () => {
 				.catch(err => next(err));
 		});
 
-		app.post('/peekdlq', isTokenValid, (req, res, next) => {
+		app.post('/peek-dlq', isTokenValid, (req, res, next) => {
 			const { topic, subscription, numMessages } = req.body;
 			controller
 				.peekDlq(topic, subscription, numMessages, req.session.currentNamespaceConnectionString)
@@ -80,7 +80,7 @@ module.exports = () => {
 				.catch(next);
 		});
 
-		app.post('/processdlq', isTokenValid, (req, res, next) => {
+		app.post('/process-dlq', isTokenValid, (req, res, next) => {
 			const { topic, subscription } = req.body;
 
 			controller
@@ -89,18 +89,16 @@ module.exports = () => {
 				.catch(next);
 		});
 
-		app.post('/peekactive', isTokenValid, (req, res, next) => {
+		app.post('/peek-active', isTokenValid, (req, res, next) => {
 			const { topic, subscription, numMessages } = req.body;
-
 			controller
 				.peekActive(topic, subscription, numMessages, req.session.currentNamespaceConnectionString)
 				.then(result => res.json(result))
 				.catch(next);
 		});
 
-		app.post('/deleteActive', isTokenValid, (req, res, next) => {
+		app.post('/delete-active', isTokenValid, (req, res, next) => {
 			const { topic, subscription } = req.body;
-
 			controller
 				.purgeActive(topic, subscription, req.session.currentNamespaceConnectionString)
 				.then(result => res.json(result))

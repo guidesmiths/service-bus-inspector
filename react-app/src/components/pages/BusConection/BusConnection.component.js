@@ -161,6 +161,7 @@ const BusConnection = ({ isLoading, setLoading, toastMessage, setToasterMessage,
 					onConfirmPublish={() => republishMessageFromDlq(messageToPublish)}
 					onCloseModal={() => setPublishMode(false)}
 					messageToPublish={messageToPublish}
+					setMessage={setMessageToPublish}
 				/>}
 			</div>
 		</>

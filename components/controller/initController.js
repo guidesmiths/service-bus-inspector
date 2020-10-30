@@ -14,6 +14,7 @@ module.exports = () => {
 					connectionString,
 				},
 				subscriptions,
+				publications: config.publications,
 			};
 			return res;
 		};
@@ -136,15 +137,14 @@ module.exports = () => {
 			}
 		};
 
-		const republishMessage = async (topic, subscription, currentNamespaceConnectionString, bodyMessage) => {
+		const republishMessage = async (topic, subscription, currentNamespaceConnectionString, message) => {
 			try {
 				const busConfig = getBusConfig(topic, subscription, currentNamespaceConnectionString);
 				const { start: startBus, stop: stopBus } = initBus();
 				const bus = await startBus({ config: busConfig });
-				const messageToPublish = { timestamp: new Date(), body: bodyMessage };
-				await bus.publish(topic)(messageToPublish);
+				// console.log('message ==> ', message);
+				await bus.publish('performanceTest')(message);
 				stopBus();
-
 				logger.info('Message published succesfully');
 				return 'Message published succesfully';
 			} catch (err) {

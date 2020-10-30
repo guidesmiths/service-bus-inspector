@@ -4,7 +4,7 @@ import { handlingResponse, logError } from './utils';
 export const getDlq = ({ topic, subscription, numMessages }) =>
   axios({
     method: 'post',
-    url: '/peekdlq',
+    url: '/peek-dlq',
     headers: {
       Authorization: localStorage.getItem('token')
     },
@@ -20,7 +20,7 @@ export const getDlq = ({ topic, subscription, numMessages }) =>
 export const deleteDlq = (topic, subscription) =>
   axios({
     method: 'post',
-    url: '/processdlq',
+    url: '/process-dlq',
     headers: {
       Authorization: localStorage.getItem('token')
     },
@@ -35,7 +35,7 @@ export const deleteDlq = (topic, subscription) =>
 export const deleteActive = (topic, subscription) =>
   axios({
     method: 'post',
-    url: '/deleteActive',
+    url: '/delete-active',
     headers: {
       Authorization: localStorage.getItem('token')
     },
@@ -50,7 +50,7 @@ export const deleteActive = (topic, subscription) =>
 export const getActive = ({ namespace, topic, subscription, numMessages }) =>
   axios({
     method: 'post',
-    url: '/peekactive',
+    url: '/peek-active',
     headers: {
       Authorization: localStorage.getItem('token')
     },
@@ -111,13 +111,13 @@ export const getSubscriptionDetail = async body => {
         data: body
     })
     console.log(response);
-        return response;
+    return response;
 };
 
 export const checkToken = async () => {
   const response = await axios({
     method: 'get',
-    url: '/tokenhealth',
+    url: '/token-health',
     headers: {
       Authorization: localStorage.getItem('token')
     }
@@ -139,5 +139,5 @@ export const republishMessage = async (topic, subscription, message) => {
     },
   });
   console.log('response here', response);
-  return response;
+  return response.data;
 };
