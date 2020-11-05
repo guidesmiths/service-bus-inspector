@@ -89,7 +89,7 @@ export const getNamespaces = token =>
     data: {}
   });
 
-export const getTopics = body =>
+export const getTopicsData = body =>
   axios({
     method: 'post',
     url: '/namespace',

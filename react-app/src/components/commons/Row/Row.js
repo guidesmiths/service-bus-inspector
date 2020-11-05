@@ -11,7 +11,8 @@ const Row = ({ topic, namespace, resourceGroup }) => (
             style={{ 'cursor': 'pointer' }}
         >
             <td className="firstRow">
-                <strong> {topic.topic}</strong>
+                <strong> {topic.topic} </strong>
+                <span className="count-subs-circle">1</span>
             </td>
             <td>
             </td>

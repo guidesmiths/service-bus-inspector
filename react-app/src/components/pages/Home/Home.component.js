@@ -7,7 +7,7 @@ import Toaster from '../../commons/Toaster/Toaster.container';
 import LoadingBar from 'react-redux-loading-bar';
 import './Home.css';
 
-const Home = ({ getTopics, topics, toastMessage, namespaces, getNamespaces, loading, hasValidToken, checkToken, isCheckingToken, ...props }) => {
+const Home = ({ getTopicsData, topics, toastMessage, namespaces, getNamespaces, loading, hasValidToken, checkToken, isCheckingToken, ...props }) => {
 	const [selectedNamespace, setSelectedNamespace] = useState(props.match.params.namespace);
 	const [currentResourceGroup, setCurrentResourceGroup] = useState('');
 
@@ -28,7 +28,7 @@ const Home = ({ getTopics, topics, toastMessage, namespaces, getNamespaces, load
 				const splittedId = wholeNamespace[0].id.split('resourceGroups/');
 				const resourceGroup = splittedId[1].substr(0, splittedId[1].indexOf('/'));
 				setCurrentResourceGroup(resourceGroup);
-				if (resourceGroup !== undefined) getTopics({
+				if (resourceGroup !== undefined) getTopicsData({
 					namespace: selectedNamespace,
 					resourceGroup: resourceGroup
 				});

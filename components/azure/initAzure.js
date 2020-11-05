@@ -21,7 +21,7 @@ module.exports = () => {
 				const apiToken = response.data.access_token;
 				return apiToken;
 			} catch (error) {
-				logger.error(`Something bad happend: ${error.message}`);
+				logger.error(`Something bad happened: ${error.message}`);
 				throw createBadRequest(error.message);
 			}
 		};
@@ -40,12 +40,12 @@ module.exports = () => {
 				);
 				return response.data.value;
 			} catch (error) {
-				logger.error(`Something bad happend: ${error.message}`);
+				logger.error(`Something bad happened: ${error.message}`);
 				throw createBadRequest(error.message);
 			}
 		};
 
-		const getTopics = async (namespaceId, resourceGroup, azureToken, subscriptionId) => {
+		const getTopicsData = async (namespaceId, resourceGroup, azureToken, subscriptionId) => {
 			try {
 				const url = `https://management.azure.com/subscriptions/${subscriptionId}/resourceGroups/${resourceGroup}/providers/Microsoft.ServiceBus/namespaces/${namespaceId}/topics?api-version=2017-04-01`;
 				const axiosTopicsRes = await axios.get(
@@ -57,17 +57,17 @@ module.exports = () => {
 						},
 					},
 				);
-				const topics = axiosTopicsRes.data.value.map(topic => topic.name);
+				const topics = axiosTopicsRes.data.value.map(topic => ({ name: topic.name, subsCount: topic.properties.subscriptionCount }));
 				return topics;
 			} catch (error) {
-				logger.error(`Something bad happend: ${error.message}`);
+				logger.error(`Something bad happened: ${error.message}`);
 				throw createBadRequest(error.message);
 			}
 		};
 
 		const getTopicSubscriptions = async (namespaceId, resourceGroup, azureToken, topic, subscriptionId) => {
 			try {
-				const url = `https://management.azure.com/subscriptions/${subscriptionId}/resourceGroups/${resourceGroup}/providers/Microsoft.ServiceBus/namespaces/${namespaceId}/topics/${topic}/subscriptions?api-version=2017-04-01`;
+				const url = `https://management.azure.com/subscriptions/${subscriptionId}/resourceGroups/${resourceGroup}/providers/Microsoft.ServiceBus/namespaces/${namespaceId}/topics/${topic.name}/subscriptions?api-version=2017-04-01`;
 				const axiosSubsRes = await axios.get(
 					url,
 					{
@@ -77,16 +77,17 @@ module.exports = () => {
 						},
 					},
 				);
-				return { topic, subscriptions: axiosSubsRes.data.value };
+
+				return { topic: topic.name, subsCount: topic.subsCount, subscriptions: axiosSubsRes.data.value };
 			} catch (error) {
-				logger.error(`Something bad happend: ${error.message}`);
+				logger.error(`Something bad happened: ${error.message}`);
 				throw createBadRequest(error.message);
 			}
 		};
 
 		const getAllTopicsWithSubs = async (namespaceId, resourceGroup, azureToken, subscriptionId) => {
 			try {
-				const topics = await getTopics(namespaceId, resourceGroup, azureToken, subscriptionId);
+				const topics = await getTopicsData(namespaceId, resourceGroup, azureToken, subscriptionId);
 
 				const requestsArray = [];
 				topics.forEach(topic => {
@@ -95,7 +96,7 @@ module.exports = () => {
 				const topicsAndSubscriptions = await Promise.all(requestsArray);
 				return topicsAndSubscriptions;
 			} catch (error) {
-				logger.error(`Something bad happend: ${error.message}`);
+				logger.error(`Something bad happened: ${error.message}`);
 				throw createBadRequest(error.message);
 			}
 		};
@@ -114,7 +115,7 @@ module.exports = () => {
 					);
 				return axiosResponse.data.primaryConnectionString;
 			} catch (error) {
-				logger.error(`Something bad happend: ${error.message}`);
+				logger.error(`Something bad happened: ${error.message}`);
 				throw createBadRequest(error.message);
 			}
 		};
