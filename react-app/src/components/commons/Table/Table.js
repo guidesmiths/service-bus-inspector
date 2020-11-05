@@ -3,18 +3,19 @@ import Row from '../Row/Row';
 import './Table.css'
 
 const Table = ({ topics, namespace, resourceGroup }) => {
-	const [inputValue, setInputValue] = useState('')
+	const [inputValue, setInputValue] = useState('');
 
 	return (
 		<table className="tableCondensed" frame="void" rules="rows" style={{ 'borderCollapse': 'collapse' }}>
-			<input
-				className='input'
-				placeholder='Search topics...'
-				value={inputValue}
-				onChange={e => setInputValue(e.target.value)}/>
 			<thead>
 			<tr className='firstRow'>
-				<th className='firstCol tableHeaderTitle'>TOPICS</th>
+				<th className='firstCol tableHeaderTitle'>TOPICS
+					<input
+						className='input'
+						placeholder='Search topics...'
+						value={inputValue}
+						onChange={e => setInputValue(e.target.value)}/>
+				</th>
 				<th className='tableHeaderTitle'>ACTIVE MESSAGES</th>
 				<th className='tableHeaderTitle'>DLQ MESSAGES</th>
 				<th className='tableHeaderTitle titleActions'>ACTIONS</th>

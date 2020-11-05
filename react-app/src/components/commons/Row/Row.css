@@ -25,3 +25,15 @@
   width: 20px;
   fill: #adb0b3;
 }
+
+.count-subs-circle {
+  display: inline-block;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  margin-left: 10px;
+  background:#57bba5;
+  border: 0.5px black;
+  color: white;
+  text-align: center;
+}

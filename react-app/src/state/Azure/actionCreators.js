@@ -5,7 +5,7 @@ export const setToasterMessage = createAction(actionTypes.SET_TOASTER_MESSAGE, m
 
 export const resetToasterMessage = createAction(actionTypes.RESET_TOASTER);
 
-export const getTopics = createAction(actionTypes.GET_TOPICS, content => ({ content }));
+export const getTopicsData = createAction(actionTypes.GET_TOPICS, content => ({ content }));
 
 export const setTopics = createAction(actionTypes.SET_TOPICS, content => ({ content }));
 
