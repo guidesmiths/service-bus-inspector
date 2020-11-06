@@ -12,7 +12,7 @@ function* getTopicsSaga(namespace) {
 	};
 	try {
 		yield put(showLoading());
-		const content = yield contentAPI.getTopics(body);
+		const content = yield contentAPI.getTopicsData(body);
 		yield put(azureActions.setTopics(content));
 	} catch (error) {
 		yield put(azureActions.setToasterMessage({ message: error.message, action: 'Error Getting Topics' }));
