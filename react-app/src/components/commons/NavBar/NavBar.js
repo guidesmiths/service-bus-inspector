@@ -9,7 +9,8 @@ import { Link } from 'react-router-dom';
 
 const CommonNavBar = () => {
     const logoutHandler = () => {
-        localStorage.removeItem('token')
+        localStorage.removeItem('token');
+        window.location.replace('/login');
     }
     return (
         <Navbar>
