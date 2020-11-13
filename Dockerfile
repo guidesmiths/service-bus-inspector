@@ -13,7 +13,7 @@ RUN cd react-app && npm run build && cd ..
 
 # Bundle app source
 
-EXPOSE 3000
+EXPOSE 4000
 
 RUN npm run manifest
 
