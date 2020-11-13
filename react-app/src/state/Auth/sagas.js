@@ -5,9 +5,9 @@ import * as azureActions from '../Azure/actionCreators';
 import * as authActions from './actionCreators';
 import { content as contentAPI } from '../../api';
 
-function* signInSaga(credentials) {
+function* signInSaga() {
   try {
-    const { token } = yield contentAPI.getToken(credentials);
+    const { token } = yield contentAPI.getToken();
     localStorage.setItem('token', token);
     yield put(authActions.checkToken());
     yield put(azureActions.setToasterMessage({ message: 'Logged in successfully', action: 'Log in' }));

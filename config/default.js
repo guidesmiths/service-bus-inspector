@@ -12,6 +12,14 @@ module.exports = {
 		// 	},
 		// },
 	},
+	auth: {
+		provider: {
+			tenantId: process.env.TENANT_ID,
+			clientId: process.env.CLIENT_ID,
+			serverUrl: process.env.SERVER_URL || 'http://localhost:4000',
+			clientSecret: process.env.CLIENT_SECRET,
+		},
+	},
 	routes: {
 		admin: {
 			swaggerOptions: {
@@ -35,6 +43,12 @@ module.exports = {
 					},
 				},
 			},
+		},
+		api: {
+			clientId: process.env.CLIENT_ID,
+			clientSecret: process.env.CLIENT_SECRET,
+			appTenantId: process.env.TENANT_ID,
+			subscriptionId: process.env.SUBSCRIPTION_ID,
 		},
 	},
 	metrics: {

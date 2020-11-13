@@ -5,7 +5,10 @@ const axios = require('axios');
 const { createBadRequest } = require('../../utils/errors-creator');
 
 module.exports = () => {
-	const start = async ({ app, controller }) => {
+	const start = async ({ app, controller, auth, config }) => {
+		const isAuthenticated = auth.ensureAuthenticated;
+		const { clientId, clientSecret, appTenantId, subscriptionId } = config;
+
 		app.use(bodyParser.urlencoded({ extended: true }));
 		app.use(bodyParser.json());
 		app.use(cors());
@@ -43,19 +46,20 @@ module.exports = () => {
 			}
 		});
 
-		app.post('/auth', (req, res, next) => {
-			const { clientId, clientSecret, appTenantId, subscriptionId } = req.body;
-			req.session.credentials = { clientId, clientSecret, appTenantId, subscriptionId };
-			controller
-				.authorize(clientId, clientSecret, appTenantId)
-				.then(token => res.json({ token }))
-				.catch(err => next(err));
+		app.post('/auth', isAuthenticated, async (req, res, next) => {
+			try {
+				req.session.credentials = { clientId, clientSecret, appTenantId, subscriptionId };
+				const token = await controller.authorize(clientId, clientSecret, appTenantId);
+				await res.json({ token });
+			} catch (err) {
+				next(err);
+			}
 		});
 
 		app.get('/namespaces', isTokenValid, (req, res, next) => {
 			const { authorization } = req.headers;
 			controller
-				.getNamespaces(authorization, req.session.credentials.subscriptionId)
+				.getNamespaces(authorization, subscriptionId)
 				.then(response => res.json(response))
 				.catch(err => next(err));
 		});
@@ -64,7 +68,7 @@ module.exports = () => {
 			const { authorization } = req.headers;
 			const { namespace, resourceGroup } = req.body;
 			controller
-				.getAllTopicsWithSubs(namespace, resourceGroup, authorization, req.session.credentials.subscriptionId)
+				.getAllTopicsWithSubs(namespace, resourceGroup, authorization, subscriptionId)
 				.then(response => {
 					req.session.currentNamespaceConnectionString = response.currentNamespaceConnectionString;
 					return res.json(response.topicsAndSubscriptions);
@@ -109,7 +113,7 @@ module.exports = () => {
 			const { authorization } = req.headers;
 			const { resourcegroup, namespace, topic, subscription } = req.body;
 			controller
-				.getSubscriptionDetail(authorization, req.session.credentials.subscriptionId, resourcegroup, namespace, topic, subscription)
+				.getSubscriptionDetail(authorization, subscriptionId, resourcegroup, namespace, topic, subscription)
 				.then(response => res.json(response))
 				.catch(err => next(err));
 		});

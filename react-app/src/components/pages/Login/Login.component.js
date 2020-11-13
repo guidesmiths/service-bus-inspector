@@ -3,6 +3,8 @@ import { Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { ReactComponent as Logo } from '../../../assets/gs_icon.svg';
+import { ReactComponent as AzureLogo } from '../../../assets/azure.svg';
+import { azureLogin } from '../../../api/contentAPI';
 
 import './Login.css';
 
@@ -15,9 +17,7 @@ const Login = ({ history, signIn, hasValidToken, checkToken, isCheckingToken }) 
 
 	const onClickLogin = () => {
 		setSubmitted(true);
-		if (clientId !== '' && clientSecret !== '' && appTenantId !== '' && subscriptionId !== '') {
-			signIn(clientId, clientSecret, appTenantId, subscriptionId);
-		}
+		signIn();
 	};
 
 	const keyPressed = event => {
@@ -102,6 +102,10 @@ const Login = ({ history, signIn, hasValidToken, checkToken, isCheckingToken }) 
 					Login
 				</Button>
 			</form>
+			<div className="cardCustom">
+				<h5>Sign in with your Azure account</h5>
+				<AzureLogo onClick={() => [azureLogin(), onClickLogin()]} />
+			</div>
 		</div>
 	);
 };
