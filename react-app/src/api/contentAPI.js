@@ -1,6 +1,10 @@
 import axios from 'axios';
 import { handlingResponse, logError } from './utils';
 
+export const azureLogin = async () => {
+  window.location.replace('/login-azure');
+};
+
 export const getDlq = ({ topic, subscription, numMessages }) =>
   axios({
     method: 'post',
@@ -64,30 +68,27 @@ export const getActive = ({ namespace, topic, subscription, numMessages }) =>
     .then(handlingResponse([200], 'Error trying to get content'))
     .catch(logError);
 
-export const getToken = credentials =>
+export const getToken = () =>
   axios({
     method: 'post',
     url: '/auth',
     headers: {},
-    data: {
-      clientId: credentials.payload.clientId,
-      clientSecret: credentials.payload.clientSecret,
-      appTenantId: credentials.payload.appTenantId,
-      subscriptionId: credentials.payload.subscriptionId
-    }
+    data: {}
   })
     .then(handlingResponse([200], 'Error trying to get content'))
     .catch(logError);
 
-export const getNamespaces = token =>
-  axios({
+export const getNamespaces = async () => {
+  const response = await axios({
     method: 'get',
     url: '/namespaces',
     headers: {
-      Authorization: localStorage.getItem('token')
+      Authorization: localStorage.getItem('token'),
     },
     data: {}
   });
+  return response;
+};
 
 export const getTopicsData = body =>
   axios({
@@ -102,16 +103,15 @@ export const getTopicsData = body =>
     .catch(logError);
 
 export const getSubscriptionDetail = async body => {
-    const response = await axios({
-        method: 'post',
-        url: '/subscription-detail',
-        headers: {
-            Authorization: localStorage.getItem('token')
-        },
-        data: body
-    })
-    console.log(response);
-        return response;
+  const response = await axios({
+    method: 'post',
+    url: '/subscription-detail',
+    headers: {
+        Authorization: localStorage.getItem('token')
+    },
+    data: body
+  });
+  return response;
 };
 
 export const checkToken = async () => {

@@ -15,7 +15,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  signIn: (clientId, clientSecret, appTenantId, subscriptionId) => dispatch(signIn(clientId, clientSecret, appTenantId, subscriptionId)),
+  signIn: () => dispatch(signIn()),
   resetToaster: () => dispatch(resetToasterMessage()),
   checkToken: () => dispatch(checkToken())
 });

@@ -14,7 +14,7 @@ const Home = ({ getTopicsData, topics, toastMessage, namespaces, getNamespaces, 
 	useEffect(() => {
 		checkToken();
 		if (hasValidToken) {
-			getNamespaces()
+			getNamespaces();
 		} else {
 			props.history.push('/login');
 		}
