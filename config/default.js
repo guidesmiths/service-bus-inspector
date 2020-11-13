@@ -5,11 +5,12 @@ module.exports = {
 	},
 	controller: {
 		subscriptionToAnalyzeId: 'subscriptionToAnalyze',
-		publications: {
-			performanceTest: {
-				topic: 'performance-test.v1.dummy.topic',
-			},
-		},
+		publicationsToAnalyzeId: 'publicationToAnalyze',
+		// publications: {
+		// 	performanceTest: {
+		// 		topic: 'performance-test.v1.dummy.topic',
+		// 	},
+		// },
 	},
 	routes: {
 		admin: {

@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const initBus = require('systemic-azure-bus');
 const { createBadRequest } = require('../../utils/errors-creator');
 
@@ -9,12 +10,16 @@ module.exports = () => {
 				topic,
 				subscription,
 			};
+			const publications = {};
+			publications[config.publicationsToAnalyzeId] = {
+				topic,
+			};
 			const res = {
 				connection: {
 					connectionString,
 				},
 				subscriptions,
-				publications: config.publications,
+				publications,
 			};
 			return res;
 		};
@@ -139,11 +144,13 @@ module.exports = () => {
 
 		const republishMessage = async (topic, subscription, currentNamespaceConnectionString, message) => {
 			try {
+				if ('timestamp' in message) {
+					message.timestamp = new Date().toISOString();
+				}
 				const busConfig = getBusConfig(topic, subscription, currentNamespaceConnectionString);
 				const { start: startBus, stop: stopBus } = initBus();
 				const bus = await startBus({ config: busConfig });
-				// console.log('message ==> ', message);
-				await bus.publish('performanceTest')(message);
+				await bus.publish(config.publicationsToAnalyzeId)(message);
 				stopBus();
 				logger.info('Message published succesfully');
 				return 'Message published succesfully';

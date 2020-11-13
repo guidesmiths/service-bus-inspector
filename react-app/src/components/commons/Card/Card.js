@@ -4,7 +4,6 @@ import './Card.css';
 
 const Card = ({ header, errorDescription, deadLetterReason, attemptCount, cardJson, mode, onOpenPublishModal }) => {
     const [jsonViewerOpen, setJsonViewerOpen] = useState('none');
-    // console.log('mode :>> ', mode);
     const buttonHandler = () => {
         if (jsonViewerOpen === 'none') {
             setJsonViewerOpen('flex')

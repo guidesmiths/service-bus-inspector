@@ -5,7 +5,7 @@ import './PublishModal.css';
 
 const DeleteModal = ({ onConfirmPublish, onCloseModal, messageToPublish, setMessage }) => {
 	const [modalIsOpen, setModalIsOpen] = useState(true);
-	const { messageId } = messageToPublish;
+	const { messageId, ... message } = messageToPublish;
 
 	const customStyles = {
 		content: {
@@ -83,7 +83,6 @@ const DeleteModal = ({ onConfirmPublish, onCloseModal, messageToPublish, setMess
 	};
 
 	const onJsonChange = (key, value, parent, data) => {
-		console.log({ key, value, parent, data });
 		setMessage(data);
 	};
 
@@ -96,7 +95,7 @@ const DeleteModal = ({ onConfirmPublish, onCloseModal, messageToPublish, setMess
 							<h5>You are about to republish a message from the Dead Letter Queue with ID {messageId}. Are you sure?</h5>
 						</div>
 							<JSONEditor 
-								data={messageToPublish}
+								data={message}
 								collapsible
 								onChange={onJsonChange}
 								styles={editorStyles}

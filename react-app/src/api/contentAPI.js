@@ -138,6 +138,5 @@ export const republishMessage = async (topic, subscription, message) => {
       subscription
     },
   });
-  console.log('response here', response);
   return response.data;
 };

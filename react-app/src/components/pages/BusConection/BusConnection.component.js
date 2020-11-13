@@ -34,7 +34,6 @@ const BusConnection = ({ isLoading, setLoading, toastMessage, setToasterMessage,
 			const { activeMessageCount, deadLetterMessageCount } = subscriptionDetail.data.properties.countDetails;
 			const activeList = await getActive({ numMessages: activeMessageCount > 50 ? 50 : activeMessageCount, ...sharedParams });
 			const dlqList = await getDlq({ numMessages: deadLetterMessageCount > 50 ? 50 : deadLetterMessageCount, ...sharedParams });
-			console.log('DLQ LIST ', dlqList);
 			setActiveList(activeList);
 			setDlqList(dlqList);
 		} catch (error) {
