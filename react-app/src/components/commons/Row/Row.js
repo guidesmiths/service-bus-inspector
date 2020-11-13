@@ -12,7 +12,7 @@ const Row = ({ topic, namespace, resourceGroup }) => (
         >
             <td className="firstRow">
                 <strong> {topic.topic} </strong>
-                <span className="count-subs-circle">1</span>
+                <span className="count-subs-circle">{topic.subsCount}</span>
             </td>
             <td>
             </td>

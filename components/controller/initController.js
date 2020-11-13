@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const initBus = require('systemic-azure-bus');
 const { createBadRequest } = require('../../utils/errors-creator');
 
@@ -9,11 +10,16 @@ module.exports = () => {
 				topic,
 				subscription,
 			};
+			const publications = {};
+			publications[config.publicationsToAnalyzeId] = {
+				topic,
+			};
 			const res = {
 				connection: {
 					connectionString,
 				},
 				subscriptions,
+				publications,
 			};
 			return res;
 		};
@@ -123,11 +129,11 @@ module.exports = () => {
 					const onStop = logger.warn;
 					return bus.subscribe(onError, onStop);
 				};
-				const onMessageHanlder = async () => {
+				const onMessageHandler = async () => {
 					const activeMessages = await bus.peekActive(config.subscriptionToAnalyzeId, 1);
 					if (activeMessages.length < 1) await stopBus();
 				};
-				subscribe()(config.subscriptionToAnalyzeId, onMessageHanlder);
+				subscribe()(config.subscriptionToAnalyzeId, onMessageHandler);
 				logger.info('Deleted Active Messages properly');
 				return 'Deleted all Active Messages properly';
 			} catch (err) {
@@ -136,7 +142,25 @@ module.exports = () => {
 			}
 		};
 
-		return { authorize, getNamespaces, getAllTopicsWithSubs, peekDlq, purgeDlq, peekActive, purgeActive, getSubscriptionDetail };
+		const republishMessage = async (topic, subscription, currentNamespaceConnectionString, message) => {
+			try {
+				if ('timestamp' in message) {
+					message.timestamp = new Date().toISOString();
+				}
+				const busConfig = getBusConfig(topic, subscription, currentNamespaceConnectionString);
+				const { start: startBus, stop: stopBus } = initBus();
+				const bus = await startBus({ config: busConfig });
+				await bus.publish(config.publicationsToAnalyzeId)(message);
+				stopBus();
+				logger.info('Message published succesfully');
+				return 'Message published succesfully';
+			} catch (err) {
+				logger.error(err);
+				throw createBadRequest(err.message);
+			}
+		};
+
+		return { authorize, getNamespaces, getAllTopicsWithSubs, peekDlq, purgeDlq, peekActive, purgeActive, getSubscriptionDetail, republishMessage };
 	};
 
 	return { start };

@@ -1,0 +1,40 @@
+.modal-footer .btn-primary {
+	background-color: #ffffff;
+	border-color: #17ad8d;
+	border-radius: 50px;
+	color: #17ad8d;
+  }
+  
+  .modal-footer .btn-primary:hover {
+	background-color: #17ad8d;
+	border-color: #17ad8d;
+	color: #ffffff;
+  }
+  
+  .modal-footer .btn-secondary {
+	background-color: #ffffff;
+	border-color: #17ad8d;
+	border-radius: 50px;
+	color: #17ad8d;
+  }
+  
+  .modal-footer .btn-secondary:hover {
+	background-color: #ffffff;
+	border-color: #17ad8d;
+	border-radius: 50px;
+	color: #17ad8d;
+  }
+  
+  .ReactModal__Content--after-open {
+	padding: 2rem;
+	padding-top: 1rem;
+	box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.1) !important;
+	border-radius: 50px !important;
+	width: 65%;
+	max-height: calc(100vh - 210px);
+	overflow-y: auto;
+  }
+  
+  .modal-footer {
+	border-top: 0px !important;
+  }

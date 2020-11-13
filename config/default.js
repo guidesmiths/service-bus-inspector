@@ -5,6 +5,7 @@ module.exports = {
 	},
 	controller: {
 		subscriptionToAnalyzeId: 'subscriptionToAnalyze',
+		publicationsToAnalyzeId: 'publicationToAnalyze',
 	},
 	auth: {
 		provider: {

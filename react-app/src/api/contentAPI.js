@@ -8,7 +8,7 @@ export const azureLogin = async () => {
 export const getDlq = ({ topic, subscription, numMessages }) =>
   axios({
     method: 'post',
-    url: '/peekdlq',
+    url: '/peek-dlq',
     headers: {
       Authorization: localStorage.getItem('token')
     },
@@ -24,7 +24,7 @@ export const getDlq = ({ topic, subscription, numMessages }) =>
 export const deleteDlq = (topic, subscription) =>
   axios({
     method: 'post',
-    url: '/processdlq',
+    url: '/process-dlq',
     headers: {
       Authorization: localStorage.getItem('token')
     },
@@ -39,7 +39,7 @@ export const deleteDlq = (topic, subscription) =>
 export const deleteActive = (topic, subscription) =>
   axios({
     method: 'post',
-    url: '/deleteActive',
+    url: '/delete-active',
     headers: {
       Authorization: localStorage.getItem('token')
     },
@@ -54,7 +54,7 @@ export const deleteActive = (topic, subscription) =>
 export const getActive = ({ namespace, topic, subscription, numMessages }) =>
   axios({
     method: 'post',
-    url: '/peekactive',
+    url: '/peek-active',
     headers: {
       Authorization: localStorage.getItem('token')
     },
@@ -117,10 +117,26 @@ export const getSubscriptionDetail = async body => {
 export const checkToken = async () => {
   const response = await axios({
     method: 'get',
-    url: '/tokenhealth',
+    url: '/token-health',
     headers: {
       Authorization: localStorage.getItem('token')
     }
+  });
+  return response.data;
+};
+
+export const republishMessage = async (topic, subscription, message) => {
+  const response = await axios({
+    method: 'post',
+    url: '/publish-message',
+    headers: {
+      Authorization: localStorage.getItem('token')
+    },
+    data: {
+      message,
+      topic,
+      subscription
+    },
   });
   return response.data;
 };
