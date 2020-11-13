@@ -9,7 +9,7 @@ module.exports = () => {
 		});
 
 		app.get('/login-azure', (req, res, next) => {
-			req.session.returnTo = req.query.returnTo;
+			// req.session.returnTo = req.query.returnTo;
 			next();
 		}, passport.authenticate('azuread-openidconnect', { failureRedirect: '/login' }));
 
@@ -17,7 +17,7 @@ module.exports = () => {
 			passport.authenticate('azuread-openidconnect', { response: res, failureRedirect: '/login',
 			})(req, res, next);
 		}, (req, res) => {
-			res.redirect(req.session.returnTo || '/home/default');
+			res.redirect('/home/default');
 		},
 		);
 	};
