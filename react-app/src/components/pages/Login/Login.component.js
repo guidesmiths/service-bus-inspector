@@ -38,7 +38,7 @@ const Login = ({ history, signIn, hasValidToken, checkToken, isCheckingToken }) 
 
 	return (
 		<div className="loginContainer">
-			<form className="cardCustom" onSubmit={onClickLogin}>
+			{/* <form className="cardCustom" onSubmit={onClickLogin}>
 				<h5><Logo/><b className="titleText">Service Bus Inspector</b></h5>
 				<div className="input-group mb-3 inputWrap">
 					<input
@@ -101,10 +101,11 @@ const Login = ({ history, signIn, hasValidToken, checkToken, isCheckingToken }) 
 				<Button type="button" onClick={onClickLogin}>
 					Login
 				</Button>
-			</form>
+			</form> */}
 			<div className="cardCustom">
-				<h5>Sign in with your Azure account</h5>
+				<h5><Logo/><b className="titleText">Service Bus Inspector</b></h5>
 				<AzureLogo onClick={() => [azureLogin(), onClickLogin()]} />
+				<h6>Sign in with Azure</h6>
 			</div>
 		</div>
 	);

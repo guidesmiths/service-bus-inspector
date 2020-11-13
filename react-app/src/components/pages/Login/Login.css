@@ -18,6 +18,13 @@
   border-radius: 20px;
   justify-content: space-between;
   background-color: #ffffff;
+  cursor: pointer;
+}
+
+.cardCustom h6 {
+  margin-top: 30px;
+  font-weight: bold;
+  color:grey;
 }
 
 .inputWrap {
