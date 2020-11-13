@@ -6,11 +6,6 @@ module.exports = {
 	controller: {
 		subscriptionToAnalyzeId: 'subscriptionToAnalyze',
 		publicationsToAnalyzeId: 'publicationToAnalyze',
-		// publications: {
-		// 	performanceTest: {
-		// 		topic: 'performance-test.v1.dummy.topic',
-		// 	},
-		// },
 	},
 	auth: {
 		provider: {
