@@ -4,7 +4,7 @@ An application to manage Azure's service bus. This application allows you to rea
 
 # Getting Started
 
-> You can access the application here: http://10.121.16.206/ (You must be connected to the Infinitas VPN)
+> You can access the application here: https://service-bus-inspector.development.infinicloud.app/ (You must be connected to the Infinitas VPN)
 
 If you can't connect to the VPN, you might want to run it locally:
 
