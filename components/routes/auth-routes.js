@@ -22,7 +22,7 @@ module.exports = () => {
 				})(req, res, next);
 			},
 			(req, res) => {
-				res.redirect('/home/default');
+				res.redirect(req.session.redirectTo || '/home/default');
 			},
 		);
 	};
