@@ -18,8 +18,7 @@ module.exports = () => {
 						},
 					},
 				);
-				const apiToken = response.data.access_token;
-				return apiToken;
+				return response.data.access_token;
 			} catch (error) {
 				logger.error(`Something bad happened: ${error.message}`);
 				throw createBadRequest(error.message);
@@ -57,8 +56,11 @@ module.exports = () => {
 						},
 					},
 				);
-				const topics = axiosTopicsRes.data.value.map(topic => ({ name: topic.name, subsCount: topic.properties.subscriptionCount }));
-				return topics;
+
+				return axiosTopicsRes.data.value.map(topic => ({
+					name: topic.name,
+					subsCount: topic.properties.subscriptionCount,
+				}));
 			} catch (error) {
 				logger.error(`Something bad happened: ${error.message}`);
 				throw createBadRequest(error.message);
@@ -93,8 +95,8 @@ module.exports = () => {
 				topics.forEach(topic => {
 					requestsArray.push(getTopicSubscriptions(namespaceId, resourceGroup, azureToken, topic, subscriptionId));
 				});
-				const topicsAndSubscriptions = await Promise.all(requestsArray);
-				return topicsAndSubscriptions;
+
+				return await Promise.all(requestsArray);
 			} catch (error) {
 				logger.error(`Something bad happened: ${error.message}`);
 				throw createBadRequest(error.message);
@@ -113,6 +115,7 @@ module.exports = () => {
 							},
 						},
 					);
+
 				return axiosResponse.data.primaryConnectionString;
 			} catch (error) {
 				logger.error(`Something bad happened: ${error.message}`);
@@ -133,7 +136,6 @@ module.exports = () => {
 			);
 			return response.data;
 		};
-
 
 		return { authorize, getAllTopicsWithSubs, getNamespaces, getConnectionString, getSubscriptionDetail };
 	};

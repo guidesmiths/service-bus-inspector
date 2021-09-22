@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { ReactComponent as Logo } from '../../../assets/gs_icon.svg';
