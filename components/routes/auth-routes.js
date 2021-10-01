@@ -13,12 +13,17 @@ module.exports = () => {
 			next();
 		}, passport.authenticate('azuread-openidconnect', { failureRedirect: '/' }));
 
-		app.post('/auth/openid/callback', (req, res, next) => {
-			passport.authenticate('azuread-openidconnect', { response: res, failureRedirect: '/',
-			})(req, res, next);
-		}, (req, res) => {
-			res.redirect('/home/default');
-		},
+		app.post(
+			'/auth/openid/callback',
+			(req, res, next) => {
+				passport.authenticate('azuread-openidconnect', {
+					response: res,
+					failureRedirect: '/',
+				})(req, res, next);
+			},
+			(req, res) => {
+				res.redirect(req.session.redirectTo || '/home/default');
+			},
 		);
 	};
 

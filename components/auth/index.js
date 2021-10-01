@@ -1,6 +1,6 @@
-const System = require('systemic');
+const Systemic = require('systemic');
 const authProvider = require('./authProvider');
 
-module.exports = new System({ name: 'auth' })
+module.exports = new Systemic({ name: 'auth' })
 	.add('auth', authProvider())
-	.dependsOn('app', 'config');
+	.dependsOn('app', 'config', 'logger');
