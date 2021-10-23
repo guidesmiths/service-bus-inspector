@@ -20,14 +20,17 @@
     "react-scripts": "3.1.2",
     "redux": "^4.0.4",
     "redux-actions": "^2.6.5",
-    "redux-saga": "^1.1.1"
+    "redux-saga": "^1.1.1",
+    "@snyk/protect": "latest"
   },
   "scripts": {
     "start": "SKIP_PREFLIGHT_CHECK=true react-scripts start",
     "build": "SKIP_PREFLIGHT_CHECK=true react-scripts build",
     "test": "SKIP_PREFLIGHT_CHECK=true react-scripts test",
     "dev": "node_modules/.bin/run-p api start",
-    "api": "cd .. && npm start"
+    "api": "cd .. && npm start",
+    "prepare": "npm run snyk-protect",
+    "snyk-protect": "snyk-protect"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -49,5 +52,6 @@
     "react-router-redux": "^4.0.8",
     "redux-devtools": "^3.5.0"
   },
-  "proxy": "http://localhost:4000"
+  "proxy": "http://localhost:4000",
+  "snyk": true
 }
