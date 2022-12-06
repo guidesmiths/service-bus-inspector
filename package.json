@@ -59,7 +59,7 @@
     "passport": "^0.4.1",
     "passport-azure-ad": "^4.3.0",
     "prepper": "^1.1.0",
-    "qs": "^6.9.0",
+    "qs": "^6.9.7",
     "ramda": "^0.26.1",
     "snyk": "^1.316.1",
     "systemic": "^3.0.0",
