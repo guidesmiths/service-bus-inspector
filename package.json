@@ -51,7 +51,7 @@
     "express-swagger-generator": "^1.1.15",
     "fetch": "^1.1.0",
     "hogan.js": "^3.0.2",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "make-manifest": "^1.0.1",
     "on-headers": "^1.0.1",
     "optimist": "^0.6.1",
